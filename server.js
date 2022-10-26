@@ -116,10 +116,10 @@ const app = express()
             salida += `
               <div>
                 <h2>- ${p.title}: $${p.price.toLocaleString()}</h2>
-              </div>
+              </div>              
             `
           })  
-          res.send(`<h1>Productos</h1>${salida}`)          
+          res.send(`<h1>Productos</h1>${salida}<div><h4><a href="/">Volver al Inicio</a><h4></div>`)          
         })        
       })
 
@@ -138,7 +138,7 @@ const app = express()
                         <h3>- Imagen URL: ${o.thumbnail}</h3>                        
                       </div>
                     `;
-                    res.send(`<h1>Producto ID-${o.id}</h1>${salida}`)          
+                    res.send(`<h1>Producto ID-${o.id}</h1>${salida}<div><h4><a href="/">Volver al Inicio</a><h4></div>`)          
                   })             
           } else {
             res.send(`<h1>No hay Productos</h1>`)          
@@ -151,4 +151,3 @@ const server = app.listen(PORT, () => {
         }        
       );
       server.on("error", error => console.log(`Error al iniciar servidor, ${error}`))
-
