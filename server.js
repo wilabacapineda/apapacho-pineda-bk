@@ -90,6 +90,8 @@ class Contenedor {
 const file = new Contenedor('./productos.txt')
 
 const PORT = 8080
+//const PORT = process.env.PORT
+
 const app = express()
       app.use(express.json());
       app.use(express.urlencoded({ extended: true }));
