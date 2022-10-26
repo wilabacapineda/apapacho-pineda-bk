@@ -109,14 +109,17 @@ const app = express()
       })
 
       app.get('/productos', (req, res) => {
-        const data = file.getAll()
+        const data = file.getAll()        
         data.then( o => {
           let salida = ""
           o.forEach(p => {
             salida += `
-              <div>
-                <h2>- ${p.title}: $${p.price.toLocaleString()}</h2>
-              </div>              
+              <a href="/productos/${p.id}">
+                <div style="display: flex;align-content: center;align-items: center;gap:1rem;justify-content: center">                  
+                    <img width="300" src="${p.thumbnail}"/>
+                    <h2>- ${p.title}: $${p.price.toLocaleString()}</h2>                  
+                </div>              
+              </a>
             `
           })  
           res.send(`<h1>Productos</h1>${salida}<div><h4><a href="/">Volver al Inicio</a><h4></div>`)          
@@ -134,8 +137,8 @@ const app = express()
                   data.then( o => {
                     let salida = `
                       <div>                        
+                        <img width="300" src="${o.thumbnail}"/>
                         <h2>- ${o.title}: $${o.price.toLocaleString()}</h2>
-                        <h3>- Imagen URL: ${o.thumbnail}</h3>                        
                       </div>
                     `;
                     res.send(`<h1>Producto ID-${o.id}</h1>${salida}<div><h4><a href="/">Volver al Inicio</a><h4></div>`)          
@@ -145,6 +148,31 @@ const app = express()
           }
         })        
       })
+      
+      app.get('/productos/:id', (req, res) => {
+        const id = parseInt(req.params.id)
+        if(!isNaN(id)){
+          const data = file.getById(id)
+                data.then( o => {
+                  if ( o === null) {
+                    res.send(`<h1>ERROR 404</h1><img src="https://http.cat/404" />`)
+                  } else {
+                    let salida = `
+                      <div>                        
+                        <img width="300" src="${o.thumbnail}"/>
+                        <h2>- ${o.title}: $${o.price.toLocaleString()}</h2>
+                      </div>
+                    `;
+                    res.send(`<h1>Producto ID-${o.id}</h1>${salida}<div><h4><a href="/">Volver al Inicio</a><h4></div>`)                          
+                  }
+                  
+              }) 
+        } else {
+          res.send(`<h1>ERROR 404</h1><img src="https://http.cat/404" />`)
+        }
+        
+      })
+      
 
 const server = app.listen(PORT, () => {
           console.log(`🚀 Server started on PORT ${PORT} at ${new Date().toLocaleString()}`)
