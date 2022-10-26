@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "title": "Poleron modelo No me olvides",
+    "price": 20000,
+    "thumbnail": "./img/ModeloNomeolvides.jpg"
+  },
+  {
+    "id": 2,
+    "title": "Poleron modelo Amapola",
+    "price": 20000,
+    "thumbnail": "./img/ModeloAmap.jpg"
+  },
+  {
+    "id": 3,
+    "title": "Poleron modelo Jacinto",
+    "price": 15000,
+    "thumbnail": "./img/ModeloJacinto.jpg"
+  },
+  {
+    "id": 4,
+    "title": "Poleron modelo Violeta",
+    "price": 22500,
+    "thumbnail": "./img/ModeloVioleta.jpg"
+  }
+]
