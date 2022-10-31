@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apapacho</title>
+</head>
+<body>
+    <h1>
+        Bienvenidos, elija la opción que desea ver:
+    </h1>
+    <h2><a href="/productos">1- Ir a la Tienda</a><h2>    
+    <h2><a href="/productoRandom">2- Ver Producto al Azar</a><h2>
+    <hr>
+    <h1>Ingreso de Productos</h1>    
+    <form action="/api/productos" method="post" name="productos">
+        Nombre: <input type="text" name="title" id="title" placeholder="Nombre de Producto" required>
+        Precio: <input type="number" name="price" id="price" placeholder="Precio de Producto" required>
+        URL Imagen: <input type="text" name="thumbnail" id="thumbnail" placeholder="URL de Imagen de Producto" required>
+        <button>Añadir Producto</button>
+    </form>
+</body>
+</html>
