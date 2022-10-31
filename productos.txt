@@ -25,7 +25,7 @@
   },
   {
     "title": "Poleron modelo Amaranta",
-    "price": 25000,
+    "price": 21000,
     "thumbnail": "/assets/img/ModeloAmaranta.jpg",
     "id": 5
   }
