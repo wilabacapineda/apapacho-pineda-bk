@@ -134,6 +134,15 @@ const storageProductImage = multer.diskStorage({
   }
 })
 const uploadProductImage = multer({storage:storageProductImage})
+const productos = []
+const loadProducts = () => {
+  productos.splice(0,productos.length)
+  const data = file.getAll()        
+  data.then( o => {
+    o.forEach( p => productos.push(p))
+  })  
+}
+loadProducts()
 
 const routerProductos = new Router()
       routerProductos.use(express.json())
@@ -233,22 +242,39 @@ const routerProductos = new Router()
         return res.send({ mensaje: "Esto es un get para listar"})
       })
       routerProductos.get('/api/productos', (req,res) => {
-        const data = file.getAll()        
-        data.then( o => res.send(o))  
+        if(productos.length>0){
+          res.send(productos)
+        } else {
+          const data = file.getAll()        
+          data.then( o => {
+            res.send(o)
+          })
+        }          
       })
       routerProductos.get('/api/productoRandom', (req, res) => {
-        const numberOfProducts = file.getNumberOfElements()
-        numberOfProducts.then( n => {
-          if(n > 0) {
-            const min = Math.ceil(1)
-            const max = Math.floor(n)
-            const id = Math.floor(Math.random() * (max - min + 1) + min)
-            const data = file.getById(id)
-                  data.then( o => res.send(o) )            
-          } else {
-            res.send({error: 'producto no encontrado'})
-          }
-        })        
+        if(productos.length>0){          
+          const min = Math.ceil(1)
+          const max = Math.floor(productos.length)
+          const id = Math.floor(Math.random() * (max - min + 1) + min)
+          productos.forEach( o => {
+            if(parseInt(o.id) === parseInt(id)){
+              return res.send(o)
+            }
+          })
+        } else {
+          const numberOfProducts = file.getNumberOfElements()
+          numberOfProducts.then( n => {
+            if(n > 0) {
+              const min = Math.ceil(1)
+              const max = Math.floor(n)
+              const id = Math.floor(Math.random() * (max - min + 1) + min)
+              const data = file.getById(id)
+                    data.then( o => res.send(o) )            
+            } else {
+              return res.send({error: 'producto no encontrado'})
+            }
+          })      
+        }  
       })
       routerProductos.get('/api/productos/:id', (req,res) => {
         const id = parseInt(req.params.id)
@@ -256,14 +282,22 @@ const routerProductos = new Router()
           return res.send({error: 'producto no encontrado'})
         } 
 
-        const data = file.getById(id)
-              data.then( o => {
-                  if ( o === null) {
-                    res.send({error: 'producto no encontrado'})
-                  } else {
-                    res.send(o)                          
-                  }                  
-              })         
+        if(productos.length>0){
+          productos.forEach( o => {
+            if(parseInt(o.id) === id){
+              return res.send(o)
+            }
+          })
+        } else {
+          const data = file.getById(id)
+                data.then( o => {
+                    if ( o === null) {
+                      return res.send({error: 'producto no encontrado'})
+                    } else {
+                      return res.send(o)                          
+                    }                  
+                })
+        }         
       })
 
       app.post('/api', (req, res) => {
@@ -272,6 +306,7 @@ const routerProductos = new Router()
       routerProductos.post('/api/productos', (req, res) => {
         const newProd = file.save(req.body)
               newProd.then( np => {
+                productos.push(np)
                 return res.send(np)
               })      
       })
@@ -282,6 +317,7 @@ const routerProductos = new Router()
             req.body.thumbnail = `/assets/img/${req.body.thumbnail}`            
             const newProd = file.save(req.body)                  
                   newProd.then( np => {
+                    productos.push(np)
                     return res.send(np)
                   })             
           } else {
@@ -293,6 +329,7 @@ const routerProductos = new Router()
           req.body.thumbnail = `/assets/img/${thumbnail.filename}`
           const newProd = file.save(req.body)
                 newProd.then( np => {
+                  productos.push(np)
                   return res.redirect(`/productos/${np.id}`)
                 }) 
         }        
@@ -305,8 +342,16 @@ const routerProductos = new Router()
         const id = parseInt(req.params.id)
         
         const newProd = file.update(id,req.body)
-              newProd.then( np => {
-                np.length === 0 ? res.send({error: 'producto no encontrado'}) : res.send(np)                
+              newProd.then( np => {  
+                if(np.length>0){
+                  productos.forEach(p => {
+                    if(p.id === id) {
+                      const indexOfItemInArray = productos.findIndex(p => p.id === id)
+                      productos.splice(indexOfItemInArray, 1, np[0])
+                    }
+                  })
+                }   
+                np.length === 0 ? res.send({error: 'producto no encontrado'}) : res.send(np[0])                
               })      
       })
 
@@ -322,6 +367,8 @@ const routerProductos = new Router()
                 }
                 const deleteID = file.deleteById(id)
                 deleteID.then( np => {
+                  const indexOfItemInArray = productos.findIndex(p => p.id === id)
+                  productos.splice(indexOfItemInArray, 1)
                   return res.send(np)
                 })
               }) 
