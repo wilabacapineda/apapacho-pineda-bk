@@ -3,24 +3,30 @@
     "id": 1,
     "title": "Poleron modelo No me olvides",
     "price": 20000,
-    "thumbnail": "https://apapacho.cl.soyunremix.cl/assets/img/ModeloNomeolvides.jpg"
+    "thumbnail": "/assets/img/ModeloNomeolvides.jpg"
   },
   {
     "id": 2,
     "title": "Poleron modelo Amapola",
     "price": 20000,
-    "thumbnail": "https://apapacho.cl.soyunremix.cl/assets/img/ModeloAmapola.jpg"
+    "thumbnail": "/assets/img/ModeloAmapola.jpg"
   },
   {
     "id": 3,
     "title": "Poleron modelo Jacinto",
     "price": 15000,
-    "thumbnail": "https://apapacho.cl.soyunremix.cl/assets/img/ModeloJacinto.jpg"
+    "thumbnail": "/assets/img/ModeloJacinto.jpg"
   },
   {
     "id": 4,
     "title": "Poleron modelo Violeta",
     "price": 22500,
-    "thumbnail": "https://apapacho.cl.soyunremix.cl/assets/img/ModeloVioleta.jpg"
+    "thumbnail": "/assets/img/ModeloVioleta.jpg"
+  },
+  {
+    "title": "Poleron modelo Amaranta",
+    "price": 25000,
+    "thumbnail": "/assets/img/ModeloAmaranta.jpg",
+    "id": 5
   }
 ]

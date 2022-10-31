@@ -1,4 +1,5 @@
 const express = require('express')
+const multer = require('multer')
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args))
 
 const { Router } = express
@@ -123,6 +124,16 @@ const app = express()
       app.use(express.json())
       app.use(express.urlencoded({ extended: true }))
       app.use(express.static('public'))
+
+const storageProductImage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null,'public/assets/img/')
+  },
+  filename: (req, file, cb) => {
+    cb(null,file.originalname)
+  }
+})
+const uploadProductImage = multer({storage:storageProductImage})
 
 const routerProductos = new Router()
       routerProductos.use(express.json())
@@ -263,6 +274,28 @@ const routerProductos = new Router()
               newProd.then( np => {
                 return res.send(np)
               })      
+      })
+      routerProductos.post('/api/productos/form', uploadProductImage.single('thumbnail'), (req, res, next) => {        
+        const thumbnail = req.file
+        if(!thumbnail){
+          if(req.body.thumbnail){
+            req.body.thumbnail = `/assets/img/${req.body.thumbnail}`            
+            const newProd = file.save(req.body)                  
+                  newProd.then( np => {
+                    return res.send(np)
+                  })             
+          } else {
+            const error = new Error('Por favor sube un archivo')
+            error.httpStatusCode = 400          
+            return next(error)
+          }
+        } else {
+          req.body.thumbnail = `/assets/img/${thumbnail.filename}`
+          const newProd = file.save(req.body)
+                newProd.then( np => {
+                  return res.redirect(`/productos/${np.id}`)
+                }) 
+        }        
       })
 
       app.put('/api', (req, res) => {
