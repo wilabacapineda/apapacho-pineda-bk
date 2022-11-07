@@ -1,0 +1,23 @@
+<main class="container paginas pad-2 tienda">
+    <div class="row bs_gutter-x-0 justify-content-center">
+        <div id="error"></div>
+        <!-- Productos Destacados -->
+        <section class="col-12 pb-5">
+            <div>
+                <div class="pad-2 text-center">
+                    <h2 id="productoNombre">{{productos.title}}</h2>
+                </div>
+                <div class="row justify-content-center" id="productoTienda">
+                    <div id="productoImagen">
+                        <img src="{{productos.thumbnail}}" alt="{{productos.title}}">
+                    </div>
+                    <div id="productoInfo">
+                        <div id="productoRangoPrecios">
+                            <h5>${{productos.price}}</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>           
+    </div> 
+</main>

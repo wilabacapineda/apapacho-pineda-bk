@@ -1,24 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apapacho</title>
-</head>
-<body>
-    <h1>
-        Bienvenidos, elija la opción que desea ver:
-    </h1>
-    <h2><a href="/productos">1- Ir a la Tienda</a><h2>    
-    <h2><a href="/productoRandom">2- Ver Producto al Azar</a><h2>
-    <hr>
+{{#loadPage path '/'}}
     <h1>Ingreso de Productos</h1>    
     <form action="/api/productos/form" method="post" name="productos" enctype="multipart/form-data" style="display: flex;flex-direction: column;align-content: center;gap: 1rem;">
         <span>Nombre: <input type="text" name="title" id="title" placeholder="Nombre de Producto" required></span>
         <span>Precio: <input type="number" name="price" id="price" placeholder="Precio de Producto" required></span>
         <span>Imagen: <input type="file" name="thumbnail" id="thumbnail" required></span>
         <span><button>Añadir Producto</button></span>
-    </form>
-</body>
-</html>
+    </form>       
+{{else}}
+    {{#loadPage path '/tienda'}}
+        {{> tienda}}   
+    {{else}}
+        {{#loadPage path '/tienda/producto/:id'}}
+            {{> producto}}        
+        {{/loadPage}}
+    {{/loadPage}}
+{{/loadPage}}

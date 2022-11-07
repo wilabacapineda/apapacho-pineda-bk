@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
+    <link rel="icon" href="/assets/img/icon.png">
+ 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js" integrity="sha512-RNLkV3d+aLtfcpEyFG8jRbnWHxUqVZozacROI4J2F1sTaDqo1dPQYs01OMi1t1w9Y2FdbSCDSQ2ZVdAC8bzgAg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://kit.fontawesome.com/9d11d30b0e.js" crossorigin="anonymous"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+
+    <title>APAPACHO | Diseño Infantil</title>
+    <meta name="description" content="Tienda de vestuario infantil hecho a mano para apapachar a quienes amas. Produciendo desde el Sur de Chile a baja escala, amando la naturaleza.">
+    <meta name="keywords" content="Apapacho,Valdivia,Diseño,Independiente,Tienda,Ropa,Infantil,Niños,Niñas,Niñes,Niño,Niña,Niñe">
+</head>
+<body>
+    <header class="shadow-bottom text-center">
+        <div id="logo" class="row justify-content-md-center bs_gutter-x-0">
+            <!-- Titulo principal -->
+            <div class="logo animate__animated animate__zoomIn">
+                <div class="logo-img">
+                    <img class="rounded mx-auto d-block" width="150" src="{{logo}}" alt="{{logoTitle}}">
+                </div>
+                <div class="logo-header">
+                    <h1>{{siteTitle}}</h1>
+                    <h2>{{siteSubTitle}}</h2>
+                </div>                   
+            </div>                
+            <span class="descripcion"><em>{{description}}</em></span>                               
+        </div>
+        <div class="row justify-content-md-center menu-fixed bs_gutter-x-0">
+            <!-- Menú principal --> 
+            <nav class="principal-nav navbar navbar-expand-lg navbar-light">
+                <div class="container-fluid">
+                    <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="fa-solid menu_cel"></i>
+                    </button>
+                    <div class="collapse navbar-collapse justify-content-center" id="navbarNavDropdown">
+                        <ul class="navbar-nav justify-content-center">
+                            {{#each navbarLinks}}
+                                <li class="nav-item">
+                                    <a href="{{url}}" class="nav-link {{ active url ../path }}" aria-current="page">{{title}}</a>
+                                </li>  
+                            {{/each}}                                                              
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+    {{{body}}}    
+</body>
+</html>

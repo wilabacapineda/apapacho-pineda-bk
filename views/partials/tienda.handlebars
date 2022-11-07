@@ -1,0 +1,28 @@
+<main class="container paginas pad-2 tienda">
+    <div class="row bs_gutter-x-0 justify-content-center">
+        <!-- Pagina: Tienda -->
+        <section class="col-md-9">
+            <h2 class="pb-4">Tienda</h2>                
+            <div class="productos">
+                <div class="row" id="productosTienda">
+                    {{#each productos}}
+                        <div id="prod_{{id}}" class="card mb-3 producto animate__animated animate__flipinX">
+                            <div class="producto_imagen">
+                                <img src="{{thumbnail}}" class="card-img-top" alt="Poleron Amaranta">
+                            </div>
+                            <div class="card-body producto_info text-center">
+                                <h5 class="card-title">{{title}}</h5>
+                                <div class="row producto_info_precioCompra">
+                                    <p class="card-text producto_info_precioCompra_precio">${{price}}</p>
+                                </div>
+                            </div>
+                            <a href="/tienda/producto/{{id}}" class="producto_comprar" id="Poleron Amaranta">
+                                <span class="producto_comprar_btn">Comprar</span>
+                            </a>
+                        </div>
+                    {{/each}} 
+                </div>
+            </div>
+        </section>
+    </div> 
+</main>
