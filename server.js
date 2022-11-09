@@ -23,9 +23,6 @@ const context = {
       }
   ], 
 }
-
-const PORT = 8080
-//const PORT = process.env.PORT
 const hbs = create({
   helpers: {
     active(url,path){ 
@@ -39,6 +36,8 @@ const hbs = create({
 		"views/partials/"
 	]
 })
+const PORT = 8080
+//const PORT = process.env.PORT
 
 const app = express()
       app.use(json())
@@ -57,8 +56,6 @@ const storageProductImage = diskStorage({
   }
 })
 const uploadProductImage = multer({storage:storageProductImage})
-
-
 
 const routerProductos = new Router()
       routerProductos.use(json())
