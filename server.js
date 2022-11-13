@@ -5,7 +5,7 @@ import loadProducts from './loadProducts.js'
 
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args))
 const { Router } = express
-const {productos, file} = loadProducts()
+const { productos, file } = loadProducts()
 const context = {                    
   siteTitle:'APAPACHO',          
   siteSubTitle:'Diseño Infantil',
@@ -18,6 +18,10 @@ const context = {
           title:'Inicio'
       },
       {
+          url:'/productos',
+          title:'Productos'
+      },
+      {
           url:'/tienda',
           title:'Tienda'
       }
@@ -27,6 +31,8 @@ const context = {
 const PORT = 8080
 //const PORT = process.env.PORT
 const hbs = create({
+  partialsDir: "views/partials/",    
+  defaultLayout: 'main',
   helpers: {
     active(url,path){ 
       return path === url ? "active" : "" 
@@ -34,10 +40,7 @@ const hbs = create({
     loadPage(v1,v2,opts){      
       return v1==v2 ? opts.fn(this) : opts.inverse(this) 
     }
-  },
-  partialsDir: [		
-		"views/partials/"
-	]
+  }  
 })
 
 const app = express()
@@ -45,8 +48,8 @@ const app = express()
       app.use(urlencoded({ extended: true }))
       app.use(express.static('public'))
       app.engine('handlebars',hbs.engine)
-      app.set('views','./views')
       app.set('view engine','handlebars')
+      app.set("views", "./views")
 
 const storageProductImage = diskStorage({
   destination: (req, file, cb) => {
@@ -58,24 +61,40 @@ const storageProductImage = diskStorage({
 })
 const uploadProductImage = multer({storage:storageProductImage})
 
-
-
 const routerProductos = new Router()
       routerProductos.use(json())
 
       routerProductos.get('/', (req, res) => {                       
-        context.path=res.req.url        
+        context.path=req.route.path
         res.render('home',context)
       })
       app.use('/', routerProductos)
 
       routerProductos.get('/tienda', (req, res) => {  
-        context.path=res.req.url
+        context.path=req.route.path
         const data = {
           ...context,
           productos:productos
         }
-        res.render("home",data);
+        res.render("tienda",data);
+      })
+      app.use('/tienda', routerProductos)
+
+      routerProductos.get('/productos', (req, res) => {  
+        context.path=req.route.path
+        if(productos.length>0){
+          const data = {
+            ...context,
+            productos:productos
+          }
+          res.render("productos",data);
+        } else {
+          const data = {
+            ...context            
+          }
+          res.render("productos",data);
+        }
+        
       })
       app.use('/tienda', routerProductos)
 
@@ -110,15 +129,32 @@ const routerProductos = new Router()
         if(isNaN(id) || id <= 0){
           return res.send(`<h1>ERROR 404</h1><img src="https://http.cat/404" />`)
         } 
-        context.path=res.req.route.path
+        context.path=req.route.path
         const producto = productos.find( p => p.id===id)
         const data = {
           ...context,
           productos:producto
         }
-        res.render("home",data)
+        res.render("producto",data)
       })
       app.use('/tienda/producto/:id', routerProductos)
+
+      routerProductos.post('/productos', uploadProductImage.single('thumbnail'), (req, res,next) => {        
+        try {
+          const obj = JSON.parse(JSON.stringify(req.body))          
+                obj.thumbnail = `/assets/img/${req.file.filename}`  
+                const newProd = file.save(obj)                  
+                      newProd.then( np => {
+                        productos.push(np)
+                        return res.redirect('/')
+                      })      
+
+        } catch (err) {
+          const error = new Error(err)
+          error.httpStatusCode = 400          
+          return next(error)
+        }
+      })
 
     //API
       app.get('/api/', (req,res) => {

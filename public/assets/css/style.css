@@ -43,7 +43,9 @@ img {
 
 .homeGrid {
   display: grid;
-  grid-template-areas: "header" "main" "footer"; }
+  grid-template-areas: "header"
+ "main"
+ "footer"; }
 
 .pad-2 {
   padding: 2rem; }
@@ -510,6 +512,11 @@ header .menu_tienda {
         width: 100%;
         border-radius: 5px; }
 
+#tableTienda img {
+  max-height: 100px;
+  width: auto;
+}
+
 /* Instagram */
 .background-style, .slider_apa .slide-div, .instagram {
   background-size: cover;
@@ -684,7 +691,8 @@ footer {
   header .main-header {
     padding: 1rem 1rem 0;
     display: grid;
-    grid-template-areas: "logo" "descripcion"; }
+    grid-template-areas: "logo"
+ "descripcion"; }
   footer .container .row {
     flex-direction: column; }
     footer .container .row .footer_rrss {

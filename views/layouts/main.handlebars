@@ -19,39 +19,9 @@
 </head>
 <body>
     <header class="shadow-bottom text-center">
-        <div id="logo" class="row justify-content-md-center bs_gutter-x-0">
-            <!-- Titulo principal -->
-            <div class="logo animate__animated animate__zoomIn">
-                <div class="logo-img">
-                    <img class="rounded mx-auto d-block" width="150" src="{{logo}}" alt="{{logoTitle}}">
-                </div>
-                <div class="logo-header">
-                    <h1>{{siteTitle}}</h1>
-                    <h2>{{siteSubTitle}}</h2>
-                </div>                   
-            </div>                
-            <span class="descripcion"><em>{{description}}</em></span>                               
-        </div>
-        <div class="row justify-content-md-center menu-fixed bs_gutter-x-0">
-            <!-- Menú principal --> 
-            <nav class="principal-nav navbar navbar-expand-lg navbar-light">
-                <div class="container-fluid">
-                    <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                        <i class="fa-solid menu_cel"></i>
-                    </button>
-                    <div class="collapse navbar-collapse justify-content-center" id="navbarNavDropdown">
-                        <ul class="navbar-nav justify-content-center">
-                            {{#each navbarLinks}}
-                                <li class="nav-item">
-                                    <a href="{{url}}" class="nav-link {{ active url ../path }}" aria-current="page">{{title}}</a>
-                                </li>  
-                            {{/each}}                                                              
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-        </div>
+        {{> page/logo}}
+        {{> page/nav}}
     </header>
-    {{{body}}}    
+    {{{body}}}
 </body>
 </html>

@@ -1,17 +1,31 @@
-{{#loadPage path '/'}}
-    <h1>Ingreso de Productos</h1>    
-    <form action="/api/productos/form" method="post" name="productos" enctype="multipart/form-data" style="display: flex;flex-direction: column;align-content: center;gap: 1rem;">
-        <span>Nombre: <input type="text" name="title" id="title" placeholder="Nombre de Producto" required></span>
-        <span>Precio: <input type="number" name="price" id="price" placeholder="Precio de Producto" required></span>
-        <span>Imagen: <input type="file" name="thumbnail" id="thumbnail" required></span>
-        <span><button>Añadir Producto</button></span>
-    </form>       
-{{else}}
-    {{#loadPage path '/tienda'}}
-        {{> tienda}}   
-    {{else}}
-        {{#loadPage path '/tienda/producto/:id'}}
-            {{> producto}}        
-        {{/loadPage}}
-    {{/loadPage}}
-{{/loadPage}}
+<main class="container paginas pad-2">
+    <div id="error"></div>
+    <div class="row bs_gutter-x-0 justify-content-center">
+        <!-- Pagina: Contacto -->
+        <section class="col-md-9 pad-right-1p5">
+            <h2 class="text-center">Ingreso de Productos</h2>
+            <article>
+                <div id="submitted_text"></div>
+                <div id="enviando"></div>               
+                <form class="row g-3" action="/productos" method="post" name="productos" enctype="multipart/form-data">
+                    <div class="col-12">
+                        <label for="title" class="form-label">Nombre<span class="requerido">*</span></label>
+                        <input required type="text" name="title" id="title" class="form-control" placeholder="Nombre de Producto" aria-label="Nombre">
+                    </div>
+                    <div class="col-12">
+                        <label for="price" class="form-label">Precio<span class="requerido">*</span></label>
+                        <input required type="number" name="price" id="price" class="form-control" placeholder="Precio de Producto" aria-label="Precio">
+                    </div>                    
+                    <div class="col-12">
+                        <label for="thumbnail" class="form-label">Imagen<span class="requerido">*</span></label>
+                        <input required type="file" name="thumbnail" id="thumbnail" class="form-control" aria-label="Imagen">
+                    </div>                    
+                    <div class="col-12 requerido">*Valor requerido</div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary">Añadir Producto</button>
+                    </div>
+                </form>                     
+            </article>
+        </section>        
+    </div>        
+</main>

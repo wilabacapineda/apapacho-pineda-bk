@@ -1,0 +1,43 @@
+<main class="container paginas pad-2 tienda">
+    <div class="row bs_gutter-x-0 justify-content-center">
+        <!-- Pagina: Tienda -->
+        <section class="col-md-9">
+            <h2 class="pb-4 text-center">Vista de Productos</h2>                
+            <div class="productos">
+                <div class="table-responsive" id="tableTienda">
+                    {{#if productos }}
+                        <table class="table align-middle">
+                            <thead>
+                                <tr class="text-center">
+                                    <th scope="col">Nombre</th>
+                                    <th scope="col">Precio</th>
+                                    <th scope="col">Imagen</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#each productos}}
+                                    <tr id="prod_{{id}}" class="text-center">                                    
+                                        <td>
+                                            <a href="/tienda/producto/{{id}}">
+                                                {{title}}
+                                            </a>
+                                        </td>
+                                        <td>${{price}}</td>
+                                        <td>
+                                            <img src="{{thumbnail}}" class="card-img-top" alt="Poleron Amaranta">
+                                        </td>                                    
+                                    </tr>
+                                {{/each}}         
+                            </tbody>
+                        </table>  
+                    {{else}}
+                        <div class="text-center">
+                            No se encontraron Productos
+                        </div>
+                    {{/if}}
+                                      
+                </div>
+            </div>
+        </section>
+    </div> 
+</main>
