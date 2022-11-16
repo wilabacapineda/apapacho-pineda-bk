@@ -57,6 +57,25 @@ const io = new Server(httpServer, {
           // ...
       })
       io.on("connection", (socket) => {
+        socket.on('producto', data => {  
+          if(data===200){
+            productos.sort((a,b) => b.id - a.id)
+            const htmlProductos = productos.map((p) => {
+              return (`<tr id="prod_${p.id}" class="text-center">                                    
+                        <td>
+                          <a href="/tienda/producto/${p.id}">
+                            ${p.title}
+                          </a>
+                        </td>
+                        <td>$${p.price}</td>
+                        <td>
+                          <img src="${p.thumbnail}" class="card-img-top" alt="Poleron Amaranta">
+                        </td>                                    
+                      </tr>`)            
+            })
+            io.sockets.emit('mensajes', htmlProductos)
+          }                 
+        })
         console.log("Nuevo cliente conectado")
         // ...
       });
@@ -76,7 +95,12 @@ const routerProductos = new Router()
 
       routerProductos.get('/', (req, res) => {                       
         context.path=req.route.path
-        res.render('home',context)
+        productos.sort((a,b) => b.id - a.id)
+        const data = {
+          ...context,
+          productos:productos
+        }
+        res.render('home',data)
       })
       app.use('/', routerProductos)
 
@@ -158,8 +182,12 @@ const routerProductos = new Router()
                 obj.thumbnail = `/assets/img/${req.file.filename}`  
                 const newProd = file.save(obj)                  
                       newProd.then( np => {
-                        productos.push(np)
-                        return res.redirect('/')
+                        productos.push(np)                        
+                        //return res.redirect('/')
+                        return res.json({
+                          success: true,
+                          message: "Cargado con Exito"                          
+                      });
                       })      
 
         } catch (err) {

@@ -160,6 +160,32 @@ img {
     justify-content: center;
     align-items: center;
     border-radius: 1rem; }
+  #enviando.exito {
+      background: #6BA4B0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 1rem; 
+      font-weight: bold;
+      margin: 1rem;
+      padding: 1rem;
+      color: black;
+    } #enviando.exito a {
+      color: black;
+    }
+  #enviando.fallo {
+      background: red;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 1rem; 
+      font-weight: bold;
+      margin: 1rem;
+      padding: 1rem;
+      color: white;
+    } #enviando.fallo a {
+      color: white;
+    }
 
 .requerido {
   color: red; }

@@ -2,12 +2,11 @@
     <div id="error"></div>
     <div class="row bs_gutter-x-0 justify-content-center">
         <!-- Pagina: Contacto -->
-        <section class="col-md-9 pad-right-1p5">
+        <section class="col-md-9 pad-right-1p5 pad-bottom-2">
             <h2 class="text-center">Ingreso de Productos</h2>
             <article>
                 <div id="submitted_text"></div>
-                <div id="enviando"></div>               
-                <form class="row g-3" action="/productos" method="post" name="productos" enctype="multipart/form-data">
+                <form class="row g-3" action="/productos" id="productsForm" method="post" name="productos" enctype="multipart/form-data">
                     <div class="col-12">
                         <label for="title" class="form-label">Nombre<span class="requerido">*</span></label>
                         <input required type="text" name="title" id="title" class="form-control" placeholder="Nombre de Producto" aria-label="Nombre">
@@ -24,8 +23,47 @@
                     <div class="col-12">
                         <button type="submit" class="btn btn-primary">Añadir Producto</button>
                     </div>
-                </form>                     
+                </form> 
             </article>
-        </section>        
+        </section>    
+        <div id="enviando"></div>                    
+        <hr>        
+        <section class="col-md-9">
+            <h2 class="pb-4 text-center">Vista de Productos</h2>                
+            <div class="productos">
+                <div class="table-responsive" id="tableTienda">
+                    {{#if productos }}
+                        <table class="table align-middle">
+                            <thead>
+                                <tr class="text-center">
+                                    <th scope="col">Nombre</th>
+                                    <th scope="col">Precio</th>
+                                    <th scope="col">Imagen</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableProductos">
+                                {{#each productos}}
+                                    <tr id="prod_{{id}}" class="text-center">                                    
+                                        <td>
+                                            <a href="/tienda/producto/{{id}}">
+                                                {{title}}
+                                            </a>
+                                        </td>
+                                        <td>${{price}}</td>
+                                        <td>
+                                            <img src="{{thumbnail}}" class="card-img-top" alt="Poleron Amaranta">
+                                        </td>                                    
+                                    </tr>
+                                {{/each}}         
+                            </tbody>
+                        </table>  
+                    {{else}}
+                        <div class="text-center">
+                            No se encontraron Productos
+                        </div>
+                    {{/if}}                                      
+                </div>
+            </div>
+        </section>       
     </div>        
 </main>
