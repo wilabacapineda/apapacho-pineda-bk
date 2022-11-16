@@ -718,6 +718,9 @@ footer {
       font-style: italic;
       color: green;
     }
+    #noMessage {
+      display: block;
+    }
 
 @media screen and (max-width: 990px) {
   .menu-fixed {

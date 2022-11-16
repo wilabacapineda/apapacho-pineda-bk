@@ -96,7 +96,11 @@
                                     <span class="timeMessage">[{{time}}]: </span>
                                     <span class="textMessage">{{text}}</span>
                                 </div>   
-                            {{/each}}         
+                            {{/each}}  
+                        {{else}}
+                            <div id="noMessage" class="text-center">
+                                Sin Mensajes
+                            </div>       
                         {{/if}}  
                     </div>                 
                 </div>
