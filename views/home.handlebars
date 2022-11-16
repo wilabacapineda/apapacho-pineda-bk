@@ -2,10 +2,9 @@
     <div id="error"></div>
     <div class="row bs_gutter-x-0 justify-content-center">
         <!-- Pagina: Contacto -->
-        <section class="col-md-9 pad-right-1p5 pad-bottom-2">
+        <section class="col-md-9 pad-right-1p5 pad-bottom-2" id="sectionProductsInput">
             <h2 class="text-center">Ingreso de Productos</h2>
             <article>
-                <div id="submitted_text"></div>
                 <form class="row g-3" action="/productos" id="productsForm" method="post" name="productos" enctype="multipart/form-data">
                     <div class="col-12">
                         <label for="title" class="form-label">Nombre<span class="requerido">*</span></label>
@@ -25,10 +24,9 @@
                     </div>
                 </form> 
             </article>
-        </section>    
-        <div id="enviando"></div>                    
-        <hr>        
-        <section class="col-md-9">
+            <div id="enviando"></div>
+        </section>                                
+        <section class="col-md-9 pad-bottom-2">
             <h2 class="pb-4 text-center">Vista de Productos</h2>                
             <div class="productos">
                 <div class="table-responsive" id="tableTienda">
@@ -64,6 +62,45 @@
                     {{/if}}                                      
                 </div>
             </div>
-        </section>       
+        </section> 
+        <section class="col-md-9 pad-right-1p5 pad-bottom-2" id="sectionMensajes">
+            <h2 class="text-center">Centro de Mensajes</h2>
+            <article>
+                <div class="centroMensajes">                    
+                    <form action="" method="post" class="g-3" id="mensajesForm">
+                        <div class="d-flex">
+                            <span class="p-2 align-self-center">
+                                <label for="name">Correo: </label>
+                            </span>                            
+                            <span class="p-2 flex-grow-1 align-self-center">                                
+                                <input type="email" name="username" id="username" class="form-control" required/>                                
+                                <span id="usernameText" style="display:none"></span>
+                            </span>
+                        </div>
+                        <hr>
+                        <div class="d-flex">
+                            <span class="p-2 flex-grow-1">
+                                <textarea row="2" name="mensaje" id="mensaje" class="form-control" maxlength="140" required="true"></textarea>
+                                <p>max characters: 140 / <span id="numChar">0</span></p>
+                            </span>
+                            <span class="p-2 ">
+                                <input type="submit" value="Enviar" class="btn btn-primary">
+                            </span>
+                        </div>
+                    </form>                       
+                    <div id="mensajes">      
+                        {{#if mensajes }}                  
+                            {{#each mensajes}}  
+                                <div>
+                                    <span class="authorMessage">{{author}} </span>
+                                    <span class="timeMessage">[{{time}}]: </span>
+                                    <span class="textMessage">{{text}}</span>
+                                </div>   
+                            {{/each}}         
+                        {{/if}}  
+                    </div>                 
+                </div>
+            </article>
+        </section>      
     </div>        
 </main>

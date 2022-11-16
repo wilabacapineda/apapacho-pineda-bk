@@ -161,7 +161,7 @@ img {
     align-items: center;
     border-radius: 1rem; }
   #enviando.exito {
-      background: #6BA4B0;
+      background: green;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -169,9 +169,9 @@ img {
       font-weight: bold;
       margin: 1rem;
       padding: 1rem;
-      color: black;
+      color: white;
     } #enviando.exito a {
-      color: black;
+      color: white;
     }
   #enviando.fallo {
       background: red;
@@ -689,6 +689,35 @@ footer {
         color: #ebebeb; }
       .empresas .empresa a:hover {
         color: #6BA4B0; }
+
+
+#sectionMensajes, #sectionProductsInput {
+  background: #6ba4b02e;
+    padding: 2rem 1rem;
+    border-radius: 1rem;
+    margin-bottom: 2rem;
+}
+  #mensaje {
+    resize: none;
+  } 
+  #mensajes {
+    border: 1px;
+      border-style: solid;
+      padding: 1rem;
+      border-color: lightgray;
+      border-radius: 1rem;
+  }
+    #mensajes .authorMessage {
+      font-weight: bold;
+      color:blue;
+    }
+    #mensajes .timeMessage {
+      color: brown;
+    }
+    #mensajes .textMessage {    
+      font-style: italic;
+      color: green;
+    }
 
 @media screen and (max-width: 990px) {
   .menu-fixed {

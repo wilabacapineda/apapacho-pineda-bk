@@ -28,6 +28,7 @@ const context = {
       }
   ], 
 }
+const mensajes = []
 
 const PORT = 8080
 //const PORT = process.env.PORT
@@ -72,13 +73,34 @@ const io = new Server(httpServer, {
                           <img src="${p.thumbnail}" class="card-img-top" alt="Poleron Amaranta">
                         </td>                                    
                       </tr>`)            
-            })
-            io.sockets.emit('mensajes', htmlProductos)
+            }).join(" ")
+            io.sockets.emit('productos', htmlProductos)
           }                 
         })
+        socket.on('new-mensaje', data => {
+          const nowDate = new Date()
+          const year = nowDate.getFullYear().toString()
+          const day = nowDate.getDate().toString().padStart(2, '0')
+          const month = (nowDate.getMonth() + 1).toString().padStart(2, '0')
+          const ddmmYY = [day, month, year].join('/')
+
+          const hour = nowDate.getHours().toString().padStart(2, '0')
+          const minutes = nowDate.getMinutes().toString().padStart(2, '0')
+          const seconds = nowDate.getSeconds().toString().padStart(2, '0')
+          const hhmmss = [hour, minutes, seconds].join(':')
+          data.time = ddmmYY+' '+hhmmss
+          mensajes.unshift(data)
+          const htmlMensaje = (`<div>
+                                    <span class="authorMessage">${data.author} </span>
+                                    <span class="timeMessage">[${data.time}]: </span>
+                                    <span class="textMessage">${data.text}</span>
+                                </div>`)
+          io.sockets.emit('mensajes', htmlMensaje)
+        })
         console.log("Nuevo cliente conectado")
+        
         // ...
-      });
+      })
 
 const storageProductImage = diskStorage({
   destination: (req, file, cb) => {
@@ -98,7 +120,8 @@ const routerProductos = new Router()
         productos.sort((a,b) => b.id - a.id)
         const data = {
           ...context,
-          productos:productos
+          productos:productos,
+          mensajes:mensajes
         }
         res.render('home',data)
       })

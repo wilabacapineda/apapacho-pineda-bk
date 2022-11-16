@@ -1,10 +1,10 @@
 const socket = io()
 
-const form = document.getElementById('productsForm')
-if(form){
-    form.addEventListener('submit', (e) => {
+const productsForm = document.getElementById('productsForm')
+if(productsForm){
+    productsForm.addEventListener('submit', (e) => {
         const output = document.querySelector("#enviando");
-        const data = new FormData(form)   
+        const data = new FormData(productsForm)   
         fetch("/productos", {
             method: "POST",
             body: data
@@ -21,10 +21,41 @@ if(form){
         })
         e.preventDefault()               
     })
-    socket.on('mensajes',data => {
+    socket.on('productos',data => {
         document.querySelector("#tableProductos").innerHTML=data
-        form.reset()
+        productsForm.reset()
         document.getElementById('enviando').scrollIntoView({alignToTop: false});
+    })
+}
+
+const mensaje = document.getElementById("mensaje")
+const numChar = document.getElementById("numChar")
+if(mensaje) {
+    mensaje.addEventListener('keyup', () => {
+        numChar.innerHTML = mensaje.value.length
+    })
+}
+
+const mensajesForm = document.getElementById("mensajesForm")
+if(mensajesForm){
+    mensajesForm.addEventListener('submit', (e) => {
+        const username = document.getElementById('username')       
+        const mensajeEnviar = {
+            author: username.value,
+            text: mensaje.value.toString()
+        }                 
+        socket.emit('new-mensaje',mensajeEnviar) 
+        e.preventDefault()
+    })
+    socket.on('mensajes',data => {          
+        const username = document.getElementById('username')
+              username.style.display="none"
+        const usernameText = document.getElementById("usernameText")
+              usernameText.style.display="block"
+              usernameText.innerHTML=username.value   
+        let historial = document.querySelector("#mensajes")
+            historial.innerHTML = data + historial.innerHTML
+        mensaje.value=""
     })
 }
 
