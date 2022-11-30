@@ -1,13 +1,14 @@
-import Contenedor from './contenedor.js' 
+import options from './options/mariaDB.js'
+import ContenedorDB from './contenedorDB.js' 
 
 const loadProducts = () => {
-    const file = new Contenedor('./productos.txt')
+    const lp = new ContenedorDB(options,'products')
     const productos = []
-    const data = file.getAll()        
-    data.then( o => {
+    const data = lp.getAll()  
+    data.then( o => {        
         o.forEach( p => productos.push(p))
     })  
-    return { productos, file }
+    return { productos, lp }
 }
 
 export default loadProducts

@@ -6,7 +6,7 @@ const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch
 const routerApi = new Router()
 
   //API
-  app.get('/api/', (req,res) => {
+  routerApi.get('/api/', (req,res) => {
     return res.send({ mensaje: "Esto es un get para listar"})
   })
   routerApi.get('/api/productos', (req,res) => {
@@ -68,7 +68,7 @@ const routerApi = new Router()
     }         
   })
 
-  app.post('/api', (req, res) => {
+  routerApi.post('/api', (req, res) => {
     res.send({mensaje: 'esto es un post para crear'})
   })
   routerApi.post('/api/productos', (req, res) => {
@@ -103,7 +103,7 @@ const routerApi = new Router()
     }        
   })
 
-  app.put('/api', (req, res) => {
+  routerApi.put('/api', (req, res) => {
     res.send({mensaje: 'esto es un put para actualizar'})
   })
   routerApi.put('/api/productos/:id', (req, res) => {
@@ -123,7 +123,7 @@ const routerApi = new Router()
           })      
   })
 
-  app.delete('/api', (req, res) => {
+  routerApi.delete('/api', (req, res) => {
     res.send({mensaje: 'esto es un delete para borrar'})
   })
   routerApi.delete('/api/productos/:id', (req, res) => {

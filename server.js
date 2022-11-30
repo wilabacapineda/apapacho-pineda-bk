@@ -6,7 +6,7 @@ import { createServer } from "http"
 import { Server } from "socket.io"
 
 const { Router } = express
-const { productos, file } = loadProducts()
+const { productos, lp } = loadProducts()
 const context = {                    
   siteTitle:'APAPACHO',          
   siteSubTitle:'Diseño Infantil',
@@ -60,6 +60,7 @@ const io = new Server(httpServer, {
       io.on("connection", (socket) => {
         socket.on('producto', data => {  
           if(data===200){
+            lp.getAll().orderBy('id', 'desc').then( o => console.log(o))
             productos.sort((a,b) => b.id - a.id)
             const htmlProductos = productos.map((p) => {
               return (`<tr id="prod_${p.id}" class="text-center">                                    
@@ -74,6 +75,7 @@ const io = new Server(httpServer, {
                         </td>                                    
                       </tr>`)            
             }).join(" ")
+
             io.sockets.emit('productos', htmlProductos)
           }                 
         })
@@ -116,6 +118,7 @@ const routerProductos = new Router()
       routerProductos.use(json())
 
       routerProductos.get('/', (req, res) => {                       
+        
         context.path=req.route.path
         productos.sort((a,b) => b.id - a.id)
         const data = {
@@ -203,16 +206,17 @@ const routerProductos = new Router()
         try {
           const obj = JSON.parse(JSON.stringify(req.body))          
                 obj.thumbnail = `/assets/img/${req.file.filename}`  
-                const newProd = file.save(obj)                  
-                      newProd.then( np => {
-                        productos.push(np)                        
-                        //return res.redirect('/')
-                        return res.json({
-                          success: true,
-                          message: "Cargado con Exito"                          
-                      });
+                const newID = lp.save(obj)                  
+                      newID.then( id => {
+                        const newProd = lp.getById(id)
+                              newProd.then( np => {
+                                productos.push(np[0])                                                        
+                                return res.json({
+                                  success: true,
+                                  message: "Cargado con Exito"                          
+                                });
+                              })                        
                       })      
-
         } catch (err) {
           const error = new Error(err)
           error.httpStatusCode = 400          
