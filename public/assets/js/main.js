@@ -52,8 +52,10 @@ if(mensajesForm){
               username.style.display="none"
         const usernameText = document.getElementById("usernameText")
               usernameText.style.display="block"
-              usernameText.innerHTML=username.value  
-        document.getElementById("noMessage").style.display="none"
+              usernameText.innerHTML=username.value
+        if(document.getElementById("noMessage")){
+            document.getElementById("noMessage").style.display="none"
+        }        
         let historial = document.querySelector("#mensajes")
             historial.innerHTML = data + historial.innerHTML
         mensaje.value=""

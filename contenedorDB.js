@@ -21,6 +21,21 @@ export default class ContenedorDB {
         }
     }
 
+    async getAllOrder() {
+        try {
+            const myknex = knex(this.options)
+            return await myknex(this.tableName).orderBy('id','desc').catch((err) => {
+                console.log(err)
+                throw err
+            }).finally(() => {
+                myknex.destroy()
+            })
+        }
+        catch (error) {
+            console.warn(`getAll error: ${error}`)
+        }
+    }
+
     async save(Object) {
         try {
             const myknex = knex(this.options)

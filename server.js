@@ -2,11 +2,14 @@ import express, { json, urlencoded} from 'express'
 import multer, { diskStorage } from 'multer'
 import { create } from 'express-handlebars'
 import loadProducts from './loadProducts.js'
+import loadMensajes from './loadMensajes.js'
+
 import { createServer } from "http"
 import { Server } from "socket.io"
 
 const { Router } = express
 const { productos, lp } = loadProducts()
+const { mensajes, lm } = loadMensajes()
 const context = {                    
   siteTitle:'APAPACHO',          
   siteSubTitle:'Diseño Infantil',
@@ -28,7 +31,7 @@ const context = {
       }
   ], 
 }
-const mensajes = []
+
 
 const PORT = 8080
 //const PORT = process.env.PORT
@@ -79,6 +82,7 @@ const io = new Server(httpServer, {
             io.sockets.emit('productos', htmlProductos)
           }                 
         })
+
         socket.on('new-mensaje', data => {
           const nowDate = new Date()
           const year = nowDate.getFullYear().toString()
@@ -90,14 +94,18 @@ const io = new Server(httpServer, {
           const minutes = nowDate.getMinutes().toString().padStart(2, '0')
           const seconds = nowDate.getSeconds().toString().padStart(2, '0')
           const hhmmss = [hour, minutes, seconds].join(':')
-          data.time = ddmmYY+' '+hhmmss
-          mensajes.unshift(data)
-          const htmlMensaje = (`<div>
-                                    <span class="authorMessage">${data.author} </span>
-                                    <span class="timeMessage">[${data.time}]: </span>
-                                    <span class="textMessage">${data.text}</span>
-                                </div>`)
-          io.sockets.emit('mensajes', htmlMensaje)
+          data.time = ddmmYY+' '+hhmmss         
+          console.log(data)
+          const newID = lm.save(data)                  
+                newID.then( (id) => {
+                  mensajes.unshift(data)
+                  const htmlMensaje = (`<div>
+                                            <span class="authorMessage">${data.author} </span>
+                                            <span class="timeMessage">[${data.time}]: </span>
+                                            <span class="textMessage">${data.text}</span>
+                                        </div>`)
+                  io.sockets.emit('mensajes', htmlMensaje)                             
+                }) 
         })
         console.log("Nuevo cliente conectado")
         
