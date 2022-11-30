@@ -1,4 +1,3 @@
-import options from './options/mariaDB.js'
 import knex from 'knex'
 
 export default class ContenedorDB {
