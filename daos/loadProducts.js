@@ -1,5 +1,5 @@
-import options from './options/mariaDB.js'
-import ContenedorDB from './contenedorDB.js' 
+import options from './../options/mariaDB.js'
+import ContenedorDB from './../contenedor/contenedorDB.js' 
 
 const loadProducts = () => {
     const lp = new ContenedorDB(options,'products')

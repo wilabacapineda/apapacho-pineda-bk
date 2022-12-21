@@ -122,6 +122,3 @@ export default class ContenedorDB {
     }
     
 }
-
-//const prueba = new ContenedorDB(options,'products')
-//prueba.getAll().then( o => console.log(o))

@@ -1,11 +1,14 @@
+import dotenv from 'dotenv'
+dotenv.config()
+
 const options = {
   client: 'mysql',
   connection: {
-      host: '127.0.0.1',
-      port: 3306,
-      user: 'root',
+      host: process.env.MYSQL_HOST,
+      port: process.env.MYSQL_PORT,
+      user: process.env.MYSQL_USER,
       password: '',
-      database: 'apapacho'
+      database: process.env.MYSQL_DBNAME
   }
 }
 
