@@ -41,8 +41,13 @@ if(mensajesForm){
     mensajesForm.addEventListener('submit', (e) => {
         const username = document.getElementById('username')       
         const mensajeEnviar = {
-            author: username.value,
-            text: mensaje.value.toString()
+            author: {                
+                email: username.value
+            },
+            mensaje: {   
+                mensaje: mensaje.value.toString()                
+            },
+            id: new Date().getTime(), 
         }                 
         socket.emit('new-mensaje',mensajeEnviar) 
         e.preventDefault()

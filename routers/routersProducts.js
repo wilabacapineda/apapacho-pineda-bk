@@ -3,6 +3,7 @@ import multer, { diskStorage } from 'multer'
 import { productos, lp, mensajes, lm } from './../daos/load.js'
 import fetch from "node-fetch";
 import dotenv from 'dotenv'
+import { denormalizar } from '../utils/normalizar.js';
 dotenv.config()
 
 const { Router } = express
@@ -47,11 +48,16 @@ const routerProductos = new Router()
     routerProductos.use(json())
     routerProductos.get('/', (req, res) => {                               
         context.path=req.route.path
-        productos.sort((a,b) => b.id - a.id)
+        productos.sort((a,b) => b.id - a.id)        
+        const mensajesDeN = denormalizar(mensajes)   
+        mensajesDeN.mensajes.forEach(element => {
+            console.log(element.mensaje)
+            //console.log(element.author.email)
+        });       
         const data = {
-        ...context,
-        productos:productos,
-        mensajes:mensajes
+            ...context,
+            productos:productos,
+            mensajes:mensajesDeN
         }
         res.render('home',data)
     })

@@ -1,0 +1,36 @@
+{
+"entities": {
+    "author": {
+        "walterio.pineda@gmail.com": {
+            "email": "walterio.pineda@gmail.com",
+            "firstname": "Walter",
+            "lastname": "Ilabaca",
+            "age": 39,
+            "nickname": "walterio",
+            "avatar": ""
+        }
+    },
+    "post": {
+        "1671660033553": {
+            "author": "walterio.pineda@gmail.com",
+            "mensaje": "Hola mundo!",
+            "id": 1671660033553
+        },
+        "1671660033554": {
+            "author": "walterio.pineda@gmail.com",
+            "mensaje": "Escribenos!",
+            "id": 1671660033554
+        }
+    },
+    "posts": {
+        "mensajes": {
+            "id": "mensajes",
+            "mensajes": [
+                1671660033553,
+                1671660033554
+            ]
+        }
+    }
+},
+"result": "mensajes"
+}

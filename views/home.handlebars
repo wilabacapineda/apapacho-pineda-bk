@@ -89,12 +89,12 @@
                         </div>
                     </form>                       
                     <div id="mensajes">      
-                        {{#if mensajes }}                  
-                            {{#each mensajes}}  
+                        {{#if mensajes }}            
+                            {{#each mensajes.mensajes}}  
                                 <div>
-                                    <span class="authorMessage">{{author}} </span>
-                                    <span class="timeMessage">[{{time}}]: </span>
-                                    <span class="textMessage">{{text}}</span>
+                                    <span class="authorMessage">{{author.email}} </span>
+                                    <span class="timeMessage">[{{id}}]: </span>
+                                    <span class="textMessage">{{mensaje}}</span>
                                 </div>   
                             {{/each}}  
                         {{else}}

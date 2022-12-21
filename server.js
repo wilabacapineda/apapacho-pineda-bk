@@ -5,6 +5,8 @@ import { create } from 'express-handlebars'
 import { productos, lp, mensajes, lm } from './daos/load.js'
 import { createServer } from "http"
 import { Server } from "socket.io"
+import { normalizar, denormalizar } from './utils/normalizar.js'
+import { generadorUsuarios } from './utils/generadorUsuarios.js'
 import dotenv from 'dotenv'
 dotenv.config()
 
@@ -59,29 +61,50 @@ const io = new Server(httpServer, {})
           }                 
         })
 
-        socket.on('new-mensaje', data => {
-          const nowDate = new Date()
-          const year = nowDate.getFullYear().toString()
-          const day = nowDate.getDate().toString().padStart(2, '0')
-          const month = (nowDate.getMonth() + 1).toString().padStart(2, '0')
-          const ddmmYY = [day, month, year].join('/')
-
-          const hour = nowDate.getHours().toString().padStart(2, '0')
-          const minutes = nowDate.getMinutes().toString().padStart(2, '0')
-          const seconds = nowDate.getSeconds().toString().padStart(2, '0')
-          const hhmmss = [hour, minutes, seconds].join(':')
-          data.time = ddmmYY+' '+hhmmss         
-          console.log(data)
-          const newID = lm.save(data)                  
-                newID.then( (id) => {
-                  mensajes.unshift(data)
+        socket.on('new-mensaje', data => {               
+          mensajes.mensajes.push(data)          
+          
+          console.log(mensajes.mensajes)          
+          /*
+          const newData = normalizar(mensajes)
+          console.log(newData.entities.author)
+          console.log(newData.entities.posts)  
+          console.log(newData.entities.grupo)          
+          
+          const newID = lm.save(newData)                  
+                newID.then(() => {                                              
                   const htmlMensaje = (`<div>
                                             <span class="authorMessage">${data.author} </span>
                                             <span class="timeMessage">[${data.time}]: </span>
                                             <span class="textMessage">${data.text}</span>
                                         </div>`)
-                  io.sockets.emit('mensajes', htmlMensaje)                             
+                  io.sockets.emit('mensajes', htmlMensaje)                                                         
                 }) 
+          
+          
+          const auxData = lm.getById(data.author.id) 
+                auxData.then( r => {
+                  if ( r === null ){
+                    data.author = {
+                      ...data.author,
+                      ...generadorUsuarios()
+                    }                    
+                    const newData = normalizar(data)                  
+                    const newID = lm.save(newData)                  
+                          newID.then( (id) => {                            
+                            mensajes.unshift(data)
+                            const htmlMensaje = (`<div>
+                                                      <span class="authorMessage">${data.author} </span>
+                                                      <span class="timeMessage">[${data.time}]: </span>
+                                                      <span class="textMessage">${data.text}</span>
+                                                  </div>`)
+                            io.sockets.emit('mensajes', htmlMensaje)                                                         
+                          }) 
+                  } else {
+
+                  }
+                })          
+          */
         })
         console.log("Nuevo cliente conectado")
       })
