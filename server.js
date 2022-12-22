@@ -2,9 +2,9 @@ import express, { json, urlencoded} from 'express'
 import routerProductos from './routers/routersProducts.js' 
 import routerApi from './routers/api.js' 
 import { create } from 'express-handlebars'
-import { productos, lp, mensajes, lm } from './daos/load.js'
 import { createServer } from "http"
 import { Server } from "socket.io"
+import { productos, lp, mensajes, lm } from './daos/load.js'
 import { normalizar, denormalizar } from './utils/normalizar.js'
 import { generarAvatar } from './utils/generadorUsuarios.js'
 import dotenv from 'dotenv'
@@ -66,17 +66,26 @@ const io = new Server(httpServer, {})
           const findAuthor = auxMensajes.mensajes.filter( d => d.author.email === data.author.email)
           if(findAuthor.length <= 0){
             data.author.avatar = generarAvatar()
+          } else {
+            findAuthor.forEach( d => {
+              data.author.avatar = d.author.avatar            
+              return false
+            })
           }           
-          auxMensajes.mensajes.push(data)                    
+          auxMensajes.mensajes.push(data)  
           mensajes.entities = normalizar(auxMensajes).entities          
+          const denormalizado = JSON.stringify(auxMensajes).length
+          const normalizado = JSON.stringify(mensajes).length                  
           const newID = lm.saveFull(mensajes)                  
                 newID.then(() => {                                              
                   const htmlMensaje = (`<div>
+                                            <span class="avatarMessage"><img src=${data.author.avatar} /></span>
                                             <span class="authorMessage">${data.author.email} </span>
                                             <span class="timeMessage">[${data.id}]: </span>
                                             <span class="textMessage">${data.mensaje}</span>
                                         </div>`)
-                  io.sockets.emit('mensajes', htmlMensaje)                                                         
+                  
+                  io.sockets.emit('mensajes', JSON.stringify({ html: htmlMensaje , denormalizado: denormalizado, normalizado: normalizado}))                                                         
                 }) 
         })
         console.log("Nuevo cliente conectado")

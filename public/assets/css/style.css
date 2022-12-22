@@ -718,9 +718,20 @@ footer {
       font-style: italic;
       color: green;
     }
+    #mensajes .avatarMessage img {    
+      width: 30px;
+      padding: 0.25rem 0;
+    }
     #noMessage {
       display: block;
     }
+
+#compresion {
+  background: yellow;
+  text-align: center;
+  padding: 0.5rem;
+  margin: 0.5rem;
+}
 
 @media screen and (max-width: 990px) {
   .menu-fixed {

@@ -111,11 +111,13 @@
                                 <input type="submit" value="Enviar" class="btn btn-primary">
                             </span>
                         </div>
-                    </form>                       
+                    </form>     
+                    <div id="compresion">Aquí aparecerá los datos de compresión normalizado/denormalizado</div>                  
                     <div id="mensajes">      
                         {{#if mensajes }}            
                             {{#each mensajes.mensajes}}  
                                 <div>
+                                    <span class="avatarMessage"><img src={{author.avatar}} /></span>
                                     <span class="authorMessage">{{author.email}} </span>
                                     <span class="timeMessage">[{{id}}]: </span>
                                     <span class="textMessage">{{mensaje}}</span>

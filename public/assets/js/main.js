@@ -58,7 +58,8 @@ if(mensajesForm){
         socket.emit('new-mensaje',mensajeEnviar) 
         e.preventDefault()
     })
-    socket.on('mensajes',data => {          
+    socket.on('mensajes',data => {   
+        const datos = JSON.parse(data)   
         const username = document.getElementById('username')
               username.style.display="none"
         const usernameText = document.getElementById("usernameText")
@@ -68,8 +69,9 @@ if(mensajesForm){
             document.getElementById("noMessage").style.display="none"
         }        
         let historial = document.querySelector("#mensajes")
-            historial.innerHTML = data + historial.innerHTML
+            historial.innerHTML = datos.html + historial.innerHTML
         mensaje.value=""
+        document.getElementById("compresion").innerHTML = `denormalizado: ${datos.denormalizado} \n normalizado: ${datos.normalizado} \n Tasa de Compresion: ${Math.round((datos.normalizado/datos.denormalizado)*100,2)}%`
     })
 }
 
