@@ -68,13 +68,37 @@
             <article>
                 <div class="centroMensajes">                    
                     <form action="" method="post" class="g-3" id="mensajesForm">
-                        <div class="d-flex">
+                        <div class="d-flex flex-column bd-highlight mb-3">
                             <span class="p-2 align-self-center">
                                 <label for="name">Correo: </label>
                             </span>                            
-                            <span class="p-2 flex-grow-1 align-self-center">                                
-                                <input type="email" name="username" id="username" class="form-control" required/>                                
+                            <span class="w-100 p-2 flex-grow-1 align-self-center">                                
+                                <input type="email" name="username" id="username" class="form-control" required/>
                                 <span id="usernameText" style="display:none"></span>
+                            </span>
+                            <span class="p-2 align-self-center">
+                                <label for="firstname">Nombre: </label>
+                            </span>
+                            <span class="w-100 p-2 flex-grow-1 align-self-center">                                
+                                <input type="text" name="firstname" id="firstname" class="form-control" required/>
+                            </span>
+                            <span class="p-2 align-self-center">
+                                <label for="lastname">Apellido: </label>                                
+                            </span>
+                            <span class="w-100 p-2 flex-grow-1 align-self-center">                                
+                                <input type="text" name="lastname" id="lastname" class="form-control" required/>
+                            </span>
+                            <span class="p-2 align-self-center">
+                                <label for="age">Edad: </label>
+                            </span>
+                            <span class="w-100 p-2 flex-grow-1 align-self-center">                                
+                                <input type="number" name="age" id="age" class="form-control" required/>
+                            </span>
+                            <span class="p-2 align-self-center">
+                                <label for="nickname">Alias: </label>
+                            </span>
+                            <span class="w-100 p-2 flex-grow-1 align-self-center">                                
+                                <input type="text" name="nickname" id="nickname" class="form-control" required/>                        
                             </span>
                         </div>
                         <hr>

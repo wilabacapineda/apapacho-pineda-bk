@@ -50,10 +50,6 @@ const routerProductos = new Router()
         context.path=req.route.path
         productos.sort((a,b) => b.id - a.id)        
         const mensajesDeN = denormalizar(mensajes)   
-        mensajesDeN.mensajes.forEach(element => {
-            console.log(element.mensaje)
-            //console.log(element.author.email)
-        });       
         const data = {
             ...context,
             productos:productos,

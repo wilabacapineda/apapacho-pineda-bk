@@ -1,36 +1,50 @@
 {
-"entities": {
+  "entities": {
     "author": {
-        "walterio.pineda@gmail.com": {
-            "email": "walterio.pineda@gmail.com",
-            "firstname": "Walter",
-            "lastname": "Ilabaca",
-            "age": 39,
-            "nickname": "walterio",
-            "avatar": ""
-        }
+      "walterio.pineda@gmail.com": {
+        "email": "walterio.pineda@gmail.com",
+        "firstname": "Walter",
+        "lastname": "Ilabaca",
+        "age": 39,
+        "nickname": "walterio",
+        "avatar": "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/52.jpg"
+      },
+      "walter.pineda@wwf.cl": {
+        "email": "walter.pineda@wwf.cl",
+        "firstname": "Walter",
+        "lastname": "Ilabaca",
+        "age": 39,
+        "nickname": "walterio",
+        "avatar": "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/788.jpg"
+      }
     },
     "post": {
-        "1671660033553": {
-            "author": "walterio.pineda@gmail.com",
-            "mensaje": "Hola mundo!",
-            "id": 1671660033553
-        },
-        "1671660033554": {
-            "author": "walterio.pineda@gmail.com",
-            "mensaje": "Escribenos!",
-            "id": 1671660033554
-        }
+      "1671660033553": {
+        "author": "walterio.pineda@gmail.com",
+        "mensaje": "Hola mundo!",
+        "id": 1671660033553
+      },
+      "1671660033554": {
+        "author": "walterio.pineda@gmail.com",
+        "mensaje": "Escribenos!",
+        "id": 1671660033554
+      },
+      "1671668546429": {
+        "author": "walter.pineda@wwf.cl",
+        "mensaje": "Hola feo",
+        "id": 1671668546429
+      }
     },
     "posts": {
-        "mensajes": {
-            "id": "mensajes",
-            "mensajes": [
-                1671660033553,
-                1671660033554
-            ]
-        }
+      "mensajes": {
+        "id": "mensajes",
+        "mensajes": [
+          1671660033553,
+          1671660033554,
+          1671668546429
+        ]
+      }
     }
-},
-"result": "mensajes"
+  },
+  "result": "mensajes"
 }

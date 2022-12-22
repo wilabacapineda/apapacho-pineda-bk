@@ -39,14 +39,20 @@ if(mensaje) {
 const mensajesForm = document.getElementById("mensajesForm")
 if(mensajesForm){
     mensajesForm.addEventListener('submit', (e) => {
-        const username = document.getElementById('username')       
+        const username = document.getElementById('username')
+        const firstname = document.getElementById('firstname')
+        const lastname = document.getElementById('lastname')
+        const age = document.getElementById('age')
+        const nickname = document.getElementById('nickname')       
         const mensajeEnviar = {
             author: {                
-                email: username.value
+                email: username.value,
+                firstname: firstname.value,
+                lastname: lastname.value,
+                age: parseInt(age.value),
+                nickname: nickname.value
             },
-            mensaje: {   
-                mensaje: mensaje.value.toString()                
-            },
+            mensaje: mensaje.value.toString(),
             id: new Date().getTime(), 
         }                 
         socket.emit('new-mensaje',mensajeEnviar) 

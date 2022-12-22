@@ -19,7 +19,7 @@ export default class Contenedor {
         try {
             const content = this.getAll()            
             const newID = await content.then( resp => {
-                //Object.id = resp.length+1
+                Object.id = resp.length+1
                 resp.push(Object)                   
                 fs.promises.writeFile(this.file,JSON.stringify(resp,null,2))                
                 return Object
@@ -27,7 +27,17 @@ export default class Contenedor {
             return newID
         }
         catch (error) {
-            console.warn(`readFile error, ${error}`)
+            console.warn(`save error, ${error}`)
+        }
+    }
+
+    async saveFull(object) {
+        try {
+            fs.promises.writeFile(this.file,JSON.stringify(object,null,2))                
+            return object
+        }
+        catch (error) {
+            console.warn(`saveFull error, ${error}`)
         }
     }
 
@@ -110,4 +120,3 @@ export default class Contenedor {
       } 
     }
 }
-//const file = new Contenedor('./productos.txt')
