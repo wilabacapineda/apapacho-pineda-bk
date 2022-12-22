@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 faker.locale = 'es'
 
-const generadorUsuarios = () => {
+export const generadorUsuarios = () => {
     return {        
         firstName: faker.name.firstName(),
         lastname: faker.name.lastName(),
@@ -11,4 +11,6 @@ const generadorUsuarios = () => {
     }
 }
 
-export { generadorUsuarios }
+export const generarAvatar = () => {
+    return faker.image.avatar()
+}
