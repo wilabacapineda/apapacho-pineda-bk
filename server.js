@@ -1,6 +1,7 @@
 import express, { json, urlencoded} from 'express'
 import routerProductos from './routers/routersProducts.js' 
 import routerApi from './routers/api.js' 
+import routerCookies from './routers/cookies.js' 
 import { create } from 'express-handlebars'
 import { createServer } from "http"
 import { Server } from "socket.io"
@@ -35,6 +36,7 @@ const app = express()
       app.set("views", "./views")
       app.use(routerProductos)
       app.use(routerApi)
+      app.use(routerCookies)
 
 const httpServer = createServer(app)
 const io = new Server(httpServer, {})
