@@ -5,7 +5,15 @@ import fetch from "node-fetch";
 import dotenv from 'dotenv'
 import { denormalizar } from '../utils/normalizar.js';
 import context from './../utils/context.js';
+import session from 'express-session'
+import cookieParser from 'cookie-parser';
+import sessionFileStore from 'session-file-store'
 dotenv.config()
+
+
+
+let FileStore = sessionFileStore(session);
+
 
 const { Router } = express
 
@@ -18,9 +26,16 @@ filename: (req, file, cb) => {
 }
 })
 const uploadProductImage = multer({storage:storageProductImage})
+const getSessionName = req => req.session.nombre || null
 
 const routerProductos = new Router()
     routerProductos.use(json())
+    routerProductos.use(session({
+        store: new FileStore({path:'./sessions', ttl:300, retries:0}),
+        secret: process.env.SECRET,
+        resave:false,
+        saveUninitialized: false
+    }))
     routerProductos.get('/', (req, res) => {                               
         context.path=req.route.path
         productos.sort((a,b) => b.id - a.id)        
@@ -28,7 +43,8 @@ const routerProductos = new Router()
         const data = {
             ...context,
             productos:productos,
-            mensajes:mensajesDeN
+            mensajes:mensajesDeN,
+            name:req.session.nombre ? req.session.nombre.toLocaleUpperCase() : ''
         }
         res.render('home',data)
     })

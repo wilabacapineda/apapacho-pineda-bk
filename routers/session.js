@@ -48,11 +48,12 @@ const getSessionName = req => req.session.nombre || 'Invitado'
         
       })     
       routerSession.post('/session/logout', (req,res) => {
+        const aux = req.session.nombre
         req.session.destroy(err => {
             if(err){
                 res.json({error: 'olvidar', body:err})
-            } else {
-                res.send(`Hasta luego!`)
+            } else {                
+                res.json({name:aux})
             }
         })
       })

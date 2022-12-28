@@ -691,7 +691,7 @@ footer {
         color: #6BA4B0; }
 
 
-#sectionMensajes, #sectionProductsInput, #sectionSessionLogin {
+#sectionMensajes, #sectionProductsInput, #sectionSessionLogin, #sectionWelcome {
   background: #6ba4b02e;
     padding: 2rem 1rem;
     border-radius: 1rem;

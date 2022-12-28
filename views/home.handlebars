@@ -1,4 +1,12 @@
-<main class="container paginas pad-2">
+<main class="container paginas pad-2">    
+    {{#if name}}
+        <div class="row bs_gutter-x-0 justify-content-center" id="sectionWelcome">
+            <section class="col-md-9">
+                <h2 class="text-center">Bienvenida/o {{name}} a nuestra tienda</h2>
+            </section>
+            
+        </div>
+    {{/if}}     
     <div id="error"></div>
     <div class="row bs_gutter-x-0 justify-content-center">
         <!-- Pagina: Contacto -->
