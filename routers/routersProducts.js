@@ -4,35 +4,10 @@ import { productos, lp, mensajes, lm } from './../daos/load.js'
 import fetch from "node-fetch";
 import dotenv from 'dotenv'
 import { denormalizar } from '../utils/normalizar.js';
+import context from './../utils/context.js';
 dotenv.config()
 
 const { Router } = express
-
-const context = {                    
-    siteTitle:'APAPACHO',          
-    siteSubTitle:'Diseño Infantil',
-    description:`"Vestuario hecho a mano para apapachar a quienes amas"`,
-    logo:'/assets/img/logo.jpg',
-    logoTitle:'Logo Apapacho',
-    navbarLinks:[
-        {
-            url:'/',
-            title:'Inicio'
-        },
-        {
-            url:'/productos',
-            title:'Productos'
-        },
-        {
-            url:'/productos_fake',
-            title:'Fake Productos'
-        },
-        {
-            url:'/tienda',
-            title:'Tienda'
-        }
-    ], 
-}
 
 const storageProductImage = diskStorage({
 destination: (req, file, cb) => {

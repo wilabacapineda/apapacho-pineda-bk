@@ -1,0 +1,22 @@
+<main class="container paginas pad-2">
+    <div id="error"></div>
+    <div class="row bs_gutter-x-0 justify-content-center">
+        <!-- Pagina: Contacto -->
+        <section class="col-md-9 pad-right-1p5 pad-bottom-2" id="sectionSessionLogin">
+            <h2 class="text-center">{{#if name }}Cerrar Sesión{{else}}Iniciar Sesión{{/if}}</h2>            
+            <article>
+                <form class="row g-3" action="{{#if name }}/session/logout{{else}}/session/login{{/if}}" id="loginForm" method="post" name="{{#if name }}logout{{else}}login{{/if}}">
+                    <div class="col-12">
+                        <label for="title" class="form-label">Nombre de Usuario{{#if name }}: {{else}}<span class="requerido">*</span> {{/if}}</label>
+                        <input required type="text" name="username" id="username" class="form-control {{#if name }}logout{{/if}}" placeholder="Nombre de usuario" aria-label="Nombre" value="{{#if name }}{{name}}{{/if}}">                                                
+                    </div>
+                    <div class="col-12 requerido" id="loginFormVR">{{#if name }}{{else}}*Valor requerido{{/if}}</div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary">{{#if name }}Cerrar Sesión{{else}}Iniciar Sesión{{/if}}</button>
+                    </div>
+                </form> 
+            </article>
+            <div id="enviando"></div>
+        </section>                                    
+    </div>        
+</main>

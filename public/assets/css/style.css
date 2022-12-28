@@ -691,11 +691,16 @@ footer {
         color: #6BA4B0; }
 
 
-#sectionMensajes, #sectionProductsInput {
+#sectionMensajes, #sectionProductsInput, #sectionSessionLogin {
   background: #6ba4b02e;
     padding: 2rem 1rem;
     border-radius: 1rem;
     margin-bottom: 2rem;
+}
+
+.logout {
+  background: transparent!important;
+  border: 0;
 }
   #mensaje {
     resize: none;
