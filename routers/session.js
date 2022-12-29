@@ -3,23 +3,29 @@ import session from 'express-session'
 import dotenv from 'dotenv'
 import cookieParser from 'cookie-parser';
 import context from './../utils/context.js';
-import sessionFileStore from 'session-file-store'
-
-let FileStore = sessionFileStore(session);
-
+import MongoStore from 'connect-mongo';
+import { connectionStringUrlSessions } from './../options/connectionString.js';
 dotenv.config()
 
 let counter = 0
+const advanceOptions = {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+}
 
 const { Router } = express
 const routerSession = new Router()
       routerSession.use(json())
       routerSession.use(cookieParser())
       routerSession.use(session({
-        store: new FileStore({path:'./sessions', ttl:300, retries:0}),
+        store: new MongoStore({
+          mongoUrl:connectionStringUrlSessions, 
+          mongoOptions: advanceOptions,
+          ttl: 600       
+        }),
         secret: process.env.SECRET,
         resave:false,
-        saveUninitialized: false
+        saveUninitialized: false,
       }))
 
 const getSessionName = req => req.session.nombre || 'Invitado'

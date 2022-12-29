@@ -6,13 +6,15 @@ import dotenv from 'dotenv'
 import { denormalizar } from '../utils/normalizar.js';
 import context from './../utils/context.js';
 import session from 'express-session'
-import cookieParser from 'cookie-parser';
-import sessionFileStore from 'session-file-store'
+import MongoStore from 'connect-mongo';
+import { connectionStringUrlSessions } from './../options/connectionString.js';
 dotenv.config()
+
 const administrador = true 
-
-let FileStore = sessionFileStore(session);
-
+const advanceOptions = {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+}
 
 const { Router } = express
 
@@ -26,15 +28,19 @@ filename: (req, file, cb) => {
 })
 
 const uploadProductImage = multer({storage:storageProductImage})
-const getSessionName = req => req.session.nombre || null
 
 const routerProductos = new Router()
     routerProductos.use(json())
     routerProductos.use(session({
-        store: new FileStore({path:'./sessions', ttl:300, retries:0}),
+        store: new MongoStore({
+          mongoUrl:connectionStringUrlSessions, 
+          mongoOptions: advanceOptions,         
+          ttl: 600 
+        }),
         secret: process.env.SECRET,
         resave:false,
-        saveUninitialized: false
+        saveUninitialized: false,
+
     }))
     routerProductos.get('/', (req, res) => {                               
         context.path=req.route.path
