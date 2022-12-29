@@ -19,13 +19,25 @@
                         <input required type="text" name="title" id="title" class="form-control" placeholder="Nombre de Producto" aria-label="Nombre">
                     </div>
                     <div class="col-12">
+                        <label for="description" class="form-label">Descripción<span class="requerido">*</span></label>
+                        <textarea required name="description" id="description" class="form-control" placeholder="Descripción del Producto" aria-label="description"></textarea>
+                    </div>
+                    <div class="col-12">
                         <label for="price" class="form-label">Precio<span class="requerido">*</span></label>
                         <input required type="number" name="price" id="price" class="form-control" placeholder="Precio de Producto" aria-label="Precio">
-                    </div>                    
+                    </div> 
+                    <div class="col-12">
+                        <label for="code" class="form-label">Código<span class="requerido">*</span></label>
+                        <input required type="text" name="code" id="code" class="form-control" placeholder="Código de Producto" aria-label="code">
+                    </div>
+                    <div class="col-12">
+                        <label for="stock" class="form-label">Stock<span class="requerido">*</span></label>
+                        <input required type="number" name="stock" id="stock" class="form-control" min="0" step="1" placeholder="Stock de Producto" aria-label="stock">
+                    </div>                      
                     <div class="col-12">
                         <label for="thumbnail" class="form-label">Imagen<span class="requerido">*</span></label>
                         <input required type="file" name="thumbnail" id="thumbnail" class="form-control" aria-label="Imagen">
-                    </div>                    
+                    </div>
                     <div class="col-12 requerido">*Valor requerido</div>
                     <div class="col-12">
                         <button type="submit" class="btn btn-primary">Añadir Producto</button>
@@ -49,7 +61,7 @@
                             </thead>
                             <tbody id="tableProductos">
                                 {{#each productos}}
-                                    <tr id="prod_{{id}}" class="text-center">                                    
+                                    <tr id="prod_{{this.id}}" class="text-center">                                    
                                         <td>
                                             <a href="/tienda/producto/{{id}}">
                                                 {{title}}

@@ -59,7 +59,6 @@ const getSessionName = req => req.session.nombre || 'Invitado'
       })
       routerSession.get('/login', (req, res) => {          
         context.path=req.route.path
-        console.log(req.session.nombre)
         const data = {
             ...context,
             name: req.session.nombre

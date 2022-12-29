@@ -1,6 +1,6 @@
 import express, { json, urlencoded} from 'express'
 import multer, { diskStorage } from 'multer'
-import { productos, lp, mensajes, lm } from './../daos/load.js'
+import { ProductsDaoMemory, lp, mensajes, lm } from './../daos/load.js'
 import fetch from "node-fetch";
 import dotenv from 'dotenv'
 import { denormalizar } from '../utils/normalizar.js';
@@ -9,8 +9,7 @@ import session from 'express-session'
 import cookieParser from 'cookie-parser';
 import sessionFileStore from 'session-file-store'
 dotenv.config()
-
-
+const administrador = true 
 
 let FileStore = sessionFileStore(session);
 
@@ -25,6 +24,7 @@ filename: (req, file, cb) => {
     cb(null,file.originalname)
 }
 })
+
 const uploadProductImage = multer({storage:storageProductImage})
 const getSessionName = req => req.session.nombre || null
 
@@ -38,11 +38,10 @@ const routerProductos = new Router()
     }))
     routerProductos.get('/', (req, res) => {                               
         context.path=req.route.path
-        productos.sort((a,b) => b.id - a.id)        
-        const mensajesDeN = denormalizar(mensajes)   
+        const mensajesDeN = denormalizar(mensajes)         
         const data = {
             ...context,
-            productos:productos,
+            productos:ProductsDaoMemory.object,
             mensajes:mensajesDeN,
             name:req.session.nombre ? req.session.nombre.toLocaleUpperCase() : ''
         }
@@ -52,16 +51,16 @@ const routerProductos = new Router()
         context.path=req.route.path
         const data = {
         ...context,
-        productos:productos
+        productos:ProductsDaoMemory.object
         }
         res.render("tienda",data);
     })
     routerProductos.get('/productos', (req, res) => {  
         context.path=req.route.path
-        if(productos.length>0){
+        if(ProductsDaoMemory.object.length>0){
         const data = {
             ...context,
-            productos:productos
+            productos:ProductsDaoMemory.object
         }
         res.render("productos",data);
         } else {
@@ -91,11 +90,10 @@ const routerProductos = new Router()
         })
 
     })
-
     routerProductos.get('/productoRandom', (req, res) => {
-        if(productos.length>0){          
+        if(ProductsDaoMemory.object.length>0){          
         const min = Math.ceil(1)
-        const max = Math.floor(productos.length)
+        const max = Math.floor(ProductsDaoMemory.object.length)
         const id = Math.floor(Math.random() * (max - min + 1) + min)
         if(isNaN(id) || id <= 0){
             const data = {
@@ -105,7 +103,7 @@ const routerProductos = new Router()
             res.render("producto",data)
         }
         context.path=req.route.path
-        const producto = productos.find( p => p.id===id)
+        const producto = ProductsDaoMemory.object.find( p => p.id===id)
         const data = {
             ...context,
             productos:producto
@@ -125,32 +123,50 @@ const routerProductos = new Router()
         return res.send(`<h1>ERROR 404</h1><img src="https://http.cat/404" />`)
         } 
         context.path=req.route.path
-        const producto = productos.find( p => p.id===id)
-        const data = {
-        ...context,
-        productos:producto
-        }
-        res.render("producto",data)
+        const producto = ProductsDaoMemory.getById(id)
+              producto.then( r => {
+                const data = {
+                    ...context,
+                    productos:r
+                }
+                res.render("producto",data)
+              }).catch( r => {
+                res.send({error: 'producto no encontrado'})
+              })
+        //const producto = ProductsDaoMemory.object.find( p => p.id===id)
+
     })
     routerProductos.post('/productos', uploadProductImage.single('thumbnail'), (req, res,next) => {        
         try {
-        const obj = JSON.parse(JSON.stringify(req.body))          
-                obj.thumbnail = `/assets/img/${req.file.filename}`  
-                const newID = lp.save(obj)                  
-                    newID.then( id => {
-                        const newProd = lp.getById(id)
-                            newProd.then( np => {
-                                productos.push(np[0])                                                        
-                                return res.json({
+            if(administrador){
+                const thumbnail = req.file
+                if(thumbnail){
+                    req.body.thumbnail = `/assets/img/${thumbnail.filename}`            
+                    req.body.sales = 0
+                    req.body.price=parseInt(req.body.price)
+                    req.body.stock=parseInt(req.body.stock)
+                    req.body.variations=[]
+                    const newProd = lp.save(req.body)                  
+                          newProd.then( np => {                      
+                            ProductsDaoMemory.save(np)
+                            return res.json({
                                 success: true,
                                 message: "Cargado con Exito"                          
-                                });
-                            })                        
-                    })      
+                            });
+                          })                         
+                } else {
+                  const error = new Error('Por favor sube un archivo')
+                  error.httpStatusCode = 400          
+                  return next(error)
+                }
+              } else {
+                res.send({ error : -1, descripcion: "Ruta '/api/productos/form', metodo POST no autorizado"})
+              } 
+    
         } catch (err) {
-        const error = new Error(err)
-        error.httpStatusCode = 400          
-        return next(error)
+            const error = new Error(err)
+            error.httpStatusCode = 400          
+            return next(error)
         }
     })  
 

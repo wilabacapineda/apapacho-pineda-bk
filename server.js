@@ -6,7 +6,7 @@ import routerSession from './routers/session.js'
 import { create } from 'express-handlebars'
 import { createServer } from "http"
 import { Server } from "socket.io"
-import { productos, lp, mensajes, lm } from './daos/load.js'
+import { ProductsDaoMemory, lp, mensajes, lm } from './daos/load.js'
 import { normalizar, denormalizar } from './utils/normalizar.js'
 import { generarAvatar } from './utils/generadorUsuarios.js'
 import dotenv from 'dotenv'
@@ -45,9 +45,8 @@ const io = new Server(httpServer, {})
       io.on("connection", (socket) => {
         socket.on('producto', data => {  
           if(data===200){
-            lp.getAll().orderBy('id', 'desc').then( o => console.log(o))
-            productos.sort((a,b) => b.id - a.id)
-            const htmlProductos = productos.map((p) => {
+            ProductsDaoMemory.object.sort((a,b) => b.id - a.id)
+            const htmlProductos = ProductsDaoMemory.object.map((p) => {
               return (`<tr id="prod_${p.id}" class="text-center">                                    
                         <td>
                           <a href="/tienda/producto/${p.id}">
@@ -64,7 +63,6 @@ const io = new Server(httpServer, {})
             io.sockets.emit('productos', htmlProductos)
           }                 
         })
-
         socket.on('new-mensaje', data => { 
           const auxMensajes = denormalizar(mensajes)          
           const findAuthor = auxMensajes.mensajes.filter( d => d.author.email === data.author.email)
@@ -92,7 +90,6 @@ const io = new Server(httpServer, {})
                   io.sockets.emit('mensajes', JSON.stringify({ html: htmlMensaje , denormalizado: denormalizado, normalizado: normalizado}))                                                         
                 }) 
         })
-        console.log("Nuevo cliente conectado")
       })
 
 const server = httpServer.listen(PORT, () => {
