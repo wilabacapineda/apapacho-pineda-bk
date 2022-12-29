@@ -35,12 +35,14 @@ const routerProductos = new Router()
         store: new MongoStore({
           mongoUrl:connectionStringUrlSessions, 
           mongoOptions: advanceOptions,         
-          ttl: 600 
+          ttl: 600,
+          autoRemove: 'interval',
+          autoRemoveInterval: 10 // In minutes. Default
         }),
         secret: process.env.SECRET,
         resave:false,
         saveUninitialized: false,
-
+        cookie: {maxAge: 1000*60*10},
     }))
     routerProductos.get('/', (req, res) => {                               
         context.path=req.route.path
