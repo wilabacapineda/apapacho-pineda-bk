@@ -4,9 +4,9 @@
       "walterio.pineda@gmail.com": {
         "email": "walterio.pineda@gmail.com",
         "firstname": "Walter",
-        "lastname": "Ilabaca",
+        "lastname": "Pineda",
         "age": 39,
-        "nickname": "walterio",
+        "nickname": "walterio.pineda@gmail.com",
         "avatar": "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/52.jpg"
       }
     },
@@ -27,7 +27,7 @@
         "id": "mensajes",
         "mensajes": [
           1671660033553,
-          1671660033554
+          1671660033554          
         ]
       }
     }

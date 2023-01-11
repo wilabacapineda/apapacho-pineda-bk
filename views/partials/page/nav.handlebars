@@ -11,7 +11,12 @@
                         <li class="nav-item">
                             <a href="{{url}}" class="nav-link {{ active url ../path }}" aria-current="page">{{title}}</a>
                         </li>  
-                    {{/each}}                                                              
+                    {{/each}}  
+                    {{#if loginURL}}
+                        <li class="nav-item">
+                            <a href="{{loginURL.url}}" class="nav-link {{ active loginURL.url path }}" aria-current="page">{{loginURL.title}}</a>
+                        </li> 
+                    {{/if}}                                                                         
                 </ul>
             </div>
         </div>

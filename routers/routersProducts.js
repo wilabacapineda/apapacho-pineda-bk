@@ -1,6 +1,6 @@
 import express, { json, urlencoded} from 'express'
 import multer, { diskStorage } from 'multer'
-import { ProductsDaoMemory, lp, mensajes, lm } from './../daos/load.js'
+import { ProductsDaoMemory, lp, mensajes, users } from './../daos/load.js'
 import fetch from "node-fetch";
 import dotenv from 'dotenv'
 import { denormalizar } from '../utils/normalizar.js';
@@ -40,23 +40,51 @@ const routerProductos = new Router()
           autoRemoveInterval: 10 // In minutes. Default
         }),
         secret: process.env.SECRET,
-        resave:false,
+        resave:true,
+        rolling:true,
         saveUninitialized: false,
         cookie: {maxAge: 1000*60*10},
     }))
-    routerProductos.get('/', (req, res) => {                               
+    routerProductos.get('/', (req, res) => {   
         context.path=req.route.path
-        const mensajesDeN = denormalizar(mensajes)         
-        const data = {
-            ...context,
-            productos:ProductsDaoMemory.object,
-            mensajes:mensajesDeN,
-            name:req.session.nombre ? req.session.nombre.toLocaleUpperCase() : ''
+        const mensajesDeN = denormalizar(mensajes)   
+        const validador = req.session.passport ? ( req.session.passport.user ? req.session.passport.user : null ) : null 
+        validador ? context.loginURL = { url:'/logout', title:'Logout'} : context.loginURL = { url:'/login', title:'Login' }
+
+        if(validador){            
+            const user = users.getBy_Id(req.session.passport.user)
+                  user.then( r => {
+                    delete r.password
+                    const data = {
+                        ...context,
+                        productos:ProductsDaoMemory.object,
+                        mensajes:mensajesDeN,
+                        user: {
+                            name: r.name,
+                            lastname: r.lastname,
+                            email: r.email,
+                            age: r.age
+                        }
+                    }                    
+                    res.render('home',data)
+                  })
+        } else {
+            const data = {
+                ...context,
+                productos:ProductsDaoMemory.object,
+                mensajes:mensajesDeN,
+            }
+            res.render('home',data)
         }
-        res.render('home',data)
+        
+        
+        
     })
     routerProductos.get('/tienda', (req, res) => {  
         context.path=req.route.path
+        const validador = req.session.passport ? ( req.session.passport.user ? req.session.passport.user : null ) : null 
+        validador ? context.loginURL = { url:'/logout', title:'Logout'} : context.loginURL = { url:'/login', title:'Login' }
+
         const data = {
         ...context,
         productos:ProductsDaoMemory.object
@@ -65,6 +93,9 @@ const routerProductos = new Router()
     })
     routerProductos.get('/productos', (req, res) => {  
         context.path=req.route.path
+        const validador = req.session.passport ? ( req.session.passport.user ? req.session.passport.user : null ) : null 
+        validador ? context.loginURL = { url:'/logout', title:'Logout'} : context.loginURL = { url:'/login', title:'Login' }
+
         if(ProductsDaoMemory.object.length>0){
         const data = {
             ...context,
@@ -81,6 +112,9 @@ const routerProductos = new Router()
     })
     routerProductos.get('/productos_fake', (req, res) => {          
         context.path=req.route.path
+        const validador = req.session.passport ? ( req.session.passport.user ? req.session.passport.user : null ) : null 
+        validador ? context.loginURL = { url:'/logout', title:'Logout'} : context.loginURL = { url:'/login', title:'Login' }
+
         fetch(`http://localhost:${process.env.PORT}/api/productos-test`).then( res => res.json()).then(productos => {
             if(productos.length>0){
                 const data = {
@@ -111,6 +145,9 @@ const routerProductos = new Router()
             res.render("producto",data)
         }
         context.path=req.route.path
+        const validador = req.session.passport ? ( req.session.passport.user ? req.session.passport.user : null ) : null 
+        validador ? context.loginURL = { url:'/logout', title:'Logout'} : context.loginURL = { url:'/login', title:'Login' }
+
         const producto = ProductsDaoMemory.object.find( p => p.id===id)
         const data = {
             ...context,
@@ -131,6 +168,9 @@ const routerProductos = new Router()
         return res.send(`<h1>ERROR 404</h1><img src="https://http.cat/404" />`)
         } 
         context.path=req.route.path
+        const validador = req.session.passport ? ( req.session.passport.user ? req.session.passport.user : null ) : null 
+        validador ? context.loginURL = { url:'/logout', title:'Logout'} : context.loginURL = { url:'/login', title:'Login' }
+
         const producto = ProductsDaoMemory.getById(id)
               producto.then( r => {
                 const data = {

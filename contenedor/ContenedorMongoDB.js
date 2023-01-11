@@ -90,10 +90,19 @@ export default class ContenedorMongoDb {
 
     async getById(id){   
         try {
-            const aux = this.db.findOne({query: { id : id }})
+            const aux = this.db.findOne({ id : id })
             return await aux
         } catch (err) {
             console.warn(`MongoDb getById error, ${err}`)
+        }
+    }
+
+    async getBy_Id(id){   
+        try {
+            const aux = this.db.findOne({ _id : id })
+            return await aux
+        } catch (err) {
+            console.warn(`MongoDb getBy_Id error, ${err}`)
         }
     }
 

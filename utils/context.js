@@ -20,12 +20,13 @@ const context = {
         {
             url:'/tienda',
             title:'Tienda'
-        },
-        {
-            url:'/login',
-            title:'Login'
         }
-    ], 
+    ],
+    loginURL: {
+        url:'/login',
+        title:'Login'
+    }
+    
 }
 
 export default context

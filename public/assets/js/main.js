@@ -81,24 +81,27 @@ if(loginForm){
         e.preventDefault()
         const output = document.querySelector("#enviando");
         const username = document.getElementById("username")
-        const data = { username: username.value }                     
+        const password = document.getElementById("password") || ''
+        const data = { username: username.value, password: password.value }                     
         const action = loginForm.getAttribute('action')          
         if(action==="/session/login"){
             fetch("/session/login", {
                 method: "POST",
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(data),
-            }).then( res => {            
-                output.innerHTML = res.status === 200 ? "Inicio de sesión exitoso!" : "Error al iniciar sesión"
+            }).then( res => {  
                 output.style.display = "flex"
                 output.classList.add(res.status === 200 ? "exito" : "fallo")
-                return res.json()
-            }).then( res => {                
-                output.innerHTML += ` Bienvenida/o ${res.name}`
-                
-                setTimeout(() => {
-                    location.reload()
-                },2000)            
+                if(res.status === 200) {
+                    output.innerHTML = `Inicio de sesión exitoso!` 
+                    setTimeout(() => {
+                        window.location = '/'
+                    },2000)  
+                } else if(res.status === 401) {
+                    output.innerHTML =  "Nombre de Usuario o Contraseña incorrecta"
+                } else {
+                    output.innerHTML =  "Error al iniciar sesión"
+                }                                                
             }).catch((error) => {
                 output.innerHTML = "Error al iniciar sesión"
                 output.style.display = "flex"
@@ -135,3 +138,90 @@ if(loginForm){
     })
 
 }
+
+const registerForm = document.getElementById('registerForm')
+if(registerForm){
+    const verifyPassword = () => {  
+        const pw = document.getElementById("password").value
+        const pw2 = document.getElementById("password2").value
+        const output = document.querySelector("#enviando")
+        output.style.display = "none"
+        output.classList.remove("fallo")
+        
+        if(pw != pw2) {   
+          output.innerHTML = "**Las contraseñas no coinciden**"
+          output.style.display = "flex"
+          output.classList.add("fallo")
+          return false
+        } else {  
+            //check empty password field  
+            if(pw == "") {  
+                output.innerHTML = "**Contraseña vacia**"
+                output.style.display = "flex"
+                output.classList.add("fallo")
+                return false
+            }  
+            
+            //minimum password length validation  
+            if(pw.length < 8) {  
+                output.innerHTML = "**Minimo de caracteres 8**"
+                output.style.display = "flex"
+                output.classList.add("fallo")
+                return false
+            }  
+            
+            //maximum length of password validation  
+            if(pw.length > 16) {  
+                output.innerHTML = "**Máximo de caracteres 16**"
+                output.style.display = "flex"
+                output.classList.add("fallo")
+                return false
+            } 
+            return true      
+        }      
+    }
+
+    registerForm.addEventListener('submit', (e) => {
+        e.preventDefault()
+        if(verifyPassword()){
+            const output = document.querySelector("#enviando")
+            const formData = new FormData(registerForm)
+            const data = {
+                name: formData.get('name'),
+                lastname: formData.get('lastname'),
+                age: formData.get('age'),
+                email: formData.get('email'),
+                password: formData.get('password'),
+            }
+            const action = registerForm.getAttribute('action')
+            if(action==="/session/register"){
+                fetch("/session/register", {
+                    method: "POST",                                
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(data),
+                }).then( res => {         
+                    if(res.status === 200) {
+                        output.innerHTML = "Registro exitoso!"
+                    } else if(res.status === 302) {
+                        output.innerHTML = "Usuario ya Existe!"
+                    } else {
+                        output.innerHTML = "Error al registrar, intente nuevamente"
+                    }
+                    output.style.display = "flex"
+                    output.classList.add(res.status === 200 ? "exito" : "fallo")
+                    if(res.status === 200) {
+                        setTimeout(() => {
+                            location.href = '/login'
+                        },2000)
+                    }                    
+                }).catch((error) => {
+                    output.innerHTML = "Error al registrar, intente nuevamente"
+                    output.style.display = "flex"
+                    output.classList.add("fallo")
+                    console.log('error: ', error)
+                })
+            } 
+        }    
+    })
+
+} 

@@ -1,0 +1,46 @@
+<main class="container paginas pad-2">
+    <div id="error"></div>
+    <div class="row bs_gutter-x-0 justify-content-center">
+        <!-- Pagina: Contacto -->
+        <section class="col-md-9 pad-right-1p5 pad-bottom-2" id="sectionSessionLogin">
+            {{#if name }}
+                <h2 class="text-center">Ya tienes activa una sesión, cierrala e intenta nuevamente</h2>            
+            {{else}}
+                <h2 class="text-center">Formulario de Registro</h2>            
+                <article>
+                    <form class="row g-3" action="/session/register" id="registerForm" method="post" name="register">
+                        <div class="col-12">
+                            <label for="name" class="form-label">Nombre<span class="requerido">*</span></label>
+                            <input required type="text" name="name" id="name" class="form-control" placeholder="Nombre" aria-label="Nombre">                                                
+                        </div>
+                        <div class="col-12">
+                            <label for="lastname" class="form-label">Apellido<span class="requerido">*</span></label>
+                            <input required type="text" name="lastname" id="lastname" class="form-control" placeholder="Apellido" aria-label="Apellido">                                                
+                        </div>
+                        <div class="col-12">
+                            <label for="email" class="form-label">Email<span class="requerido">*</span></label>
+                            <input required type="text" name="email" id="email" class="form-control" placeholder="Email" aria-label="Correo">                                                
+                        </div>
+                        <div class="col-12">
+                            <label for="password" class="form-label">Contraseña<span class="requerido">*</span></label>
+                            <input required type="password" name="password" id="password" class="form-control" placeholder="****" aria-label="Password">                                                
+                        </div>
+                        <div class="col-12">
+                            <label for="password2" class="form-label">Repita Contraseña<span class="requerido">*</span></label>
+                            <input required type="password" name="password2" id="password2" class="form-control" placeholder="****" aria-label="Password2">                                                
+                        </div>
+                        <div class="col-12">
+                            <label for="age" class="form-label">Edad</label>
+                            <input type="number" name="age" id="age" class="form-control" placeholder="Edad" aria-label="Edad">                                                
+                        </div>            
+                        <div class="col-12 requerido" id="loginFormVR">*Valor requerido</div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary">Registrarse</button>
+                        </div>
+                    </form> 
+                </article>
+                <div id="enviando"></div>            
+            {{/if}}
+        </section>                                    
+    </div>        
+</main>

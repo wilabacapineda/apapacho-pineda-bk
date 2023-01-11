@@ -1,15 +1,21 @@
 <main class="container paginas pad-2">    
-    {{#if name}}
+    {{#if user}}
         <div class="row bs_gutter-x-0 justify-content-center" id="sectionWelcome">
             <section class="col-md-9">
-                <h2 class="text-center">Bienvenida/o {{name}} a nuestra tienda</h2>
+                <h2 class="text-center">Bienvenida/o {{user.name}} a nuestra tienda</h2>
+                <h4 class="text-center">correo: {{user.email}}</h4>
+                <form class="row g-3 text-center" action="/session/logout" id="loginForm" method="post" name="logout">                    
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary">Cerrar Sesión</button>
+                    </div>
+                </form> 
             </section>
             
         </div>
     {{/if}}     
     <div id="error"></div>
     <div class="row bs_gutter-x-0 justify-content-center">
-        <!-- Pagina: Contacto -->
+        <!-- Pagina -->
         <section class="col-md-9 pad-right-1p5 pad-bottom-2" id="sectionProductsInput">
             <h2 class="text-center">Ingreso de Productos</h2>
             <article>
@@ -86,52 +92,84 @@
         <section class="col-md-9 pad-right-1p5 pad-bottom-2" id="sectionMensajes">
             <h2 class="text-center">Centro de Mensajes</h2>
             <article>
-                <div class="centroMensajes">                    
-                    <form action="" method="post" class="g-3" id="mensajesForm">
-                        <div class="d-flex flex-column bd-highlight mb-3">
-                            <span class="p-2 align-self-center">
-                                <label for="name">Correo: </label>
-                            </span>                            
-                            <span class="w-100 p-2 flex-grow-1 align-self-center">                                
-                                <input type="email" name="username" id="username" class="form-control" required/>
-                                <span id="usernameText" style="display:none"></span>
-                            </span>
-                            <span class="p-2 align-self-center">
-                                <label for="firstname">Nombre: </label>
-                            </span>
-                            <span class="w-100 p-2 flex-grow-1 align-self-center">                                
-                                <input type="text" name="firstname" id="firstname" class="form-control" required/>
-                            </span>
-                            <span class="p-2 align-self-center">
-                                <label for="lastname">Apellido: </label>                                
-                            </span>
-                            <span class="w-100 p-2 flex-grow-1 align-self-center">                                
-                                <input type="text" name="lastname" id="lastname" class="form-control" required/>
-                            </span>
-                            <span class="p-2 align-self-center">
-                                <label for="age">Edad: </label>
-                            </span>
-                            <span class="w-100 p-2 flex-grow-1 align-self-center">                                
-                                <input type="number" name="age" id="age" class="form-control" required/>
-                            </span>
-                            <span class="p-2 align-self-center">
-                                <label for="nickname">Alias: </label>
-                            </span>
-                            <span class="w-100 p-2 flex-grow-1 align-self-center">                                
-                                <input type="text" name="nickname" id="nickname" class="form-control" required/>                        
-                            </span>
-                        </div>
-                        <hr>
-                        <div class="d-flex">
-                            <span class="p-2 flex-grow-1">
-                                <textarea row="2" name="mensaje" id="mensaje" class="form-control" maxlength="140" required="true"></textarea>
-                                <p>max characters: 140 / <span id="numChar">0</span></p>
-                            </span>
-                            <span class="p-2 ">
-                                <input type="submit" value="Enviar" class="btn btn-primary">
-                            </span>
-                        </div>
-                    </form>     
+                <div class="centroMensajes"> 
+                    {{#if user}}
+                        <form action="" method="post" class="g-3" id="mensajesForm">
+                            <div class="d-flex flex-column bd-highlight mb-3">
+                                <span class="p-2 align-self-center">
+                                    <label for="name">Correo: <span id="usernameText">{{user.email}}</span></label>
+                                    <input type="hidden" value="{{user.email}}" id="username"/>
+                                    <input type="hidden" value="{{user.email}}" id="nickname"/>
+                                </span>                                 
+                                <span class="p-2 align-self-center">
+                                    <label for="firstname">Nombre Completo: {{user.name}} {{user.lastname}}</label>
+                                    <input type="hidden" value="{{user.name}}" id="firstname"/>
+                                    <input type="hidden" value="{{user.lastname}}" id="lastname"/>
+                                </span>                                                         
+                                <span class="p-2 align-self-center">
+                                    <label for="age">Edad: {{user.age}}</label>
+                                    <input type="hidden" value="{{user.age}}" id="age"/>
+                                </span>
+                            </div>
+                            <hr>
+                            <div class="d-flex">
+                                <span class="p-2 flex-grow-1">
+                                    <textarea row="2" name="mensaje" id="mensaje" class="form-control" maxlength="140" required="true"></textarea>
+                                    <p>max characters: 140 / <span id="numChar">0</span></p>
+                                </span>
+                                <span class="p-2 ">
+                                    <input type="submit" value="Enviar" class="btn btn-primary">
+                                </span>
+                            </div>
+                        </form> 
+                    {{else}}
+                        <form action="" method="post" class="g-3" id="mensajesForm">
+                            <div class="d-flex flex-column bd-highlight mb-3">
+                                <span class="p-2 align-self-center">
+                                    <label for="name">Correo: </label>
+                                </span>                            
+                                <span class="w-100 p-2 flex-grow-1 align-self-center">                                
+                                    <input type="email" name="username" id="username" class="form-control" required/>
+                                    <span id="usernameText" style="display:none"></span>
+                                </span>
+                                <span class="p-2 align-self-center">
+                                    <label for="firstname">Nombre: </label>
+                                </span>
+                                <span class="w-100 p-2 flex-grow-1 align-self-center">                                
+                                    <input type="text" name="firstname" id="firstname" class="form-control" required/>
+                                </span>
+                                <span class="p-2 align-self-center">
+                                    <label for="lastname">Apellido: </label>                                
+                                </span>
+                                <span class="w-100 p-2 flex-grow-1 align-self-center">                                
+                                    <input type="text" name="lastname" id="lastname" class="form-control" required/>
+                                </span>
+                                <span class="p-2 align-self-center">
+                                    <label for="age">Edad: </label>
+                                </span>
+                                <span class="w-100 p-2 flex-grow-1 align-self-center">                                
+                                    <input type="number" name="age" id="age" class="form-control" required/>
+                                </span>
+                                <span class="p-2 align-self-center">
+                                    <label for="nickname">Alias: </label>
+                                </span>
+                                <span class="w-100 p-2 flex-grow-1 align-self-center">                                
+                                    <input type="text" name="nickname" id="nickname" class="form-control" required/>                        
+                                </span>
+                            </div>
+                            <hr>
+                            <div class="d-flex">
+                                <span class="p-2 flex-grow-1">
+                                    <textarea row="2" name="mensaje" id="mensaje" class="form-control" maxlength="140" required="true"></textarea>
+                                    <p>max characters: 140 / <span id="numChar">0</span></p>
+                                </span>
+                                <span class="p-2 ">
+                                    <input type="submit" value="Enviar" class="btn btn-primary">
+                                </span>
+                            </div>
+                        </form> 
+                    {{/if}}                  
+                        
                     <div id="compresion">Aquí aparecerá los datos de compresión normalizado/denormalizado</div>                  
                     <div id="mensajes">      
                         {{#if mensajes }}            
